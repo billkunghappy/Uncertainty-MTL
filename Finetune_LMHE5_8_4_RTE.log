@@ -1,0 +1,883 @@
+01/08/2021 12:34:06 1
+01/08/2021 12:34:06 Launching the MT-DNN training
+01/08/2021 12:34:06 Loading data/canonical_data/bert_base_uncased_lower/rte_train.json as task 1
+01/08/2021 12:34:06 ####################
+01/08/2021 12:34:06 {'log_file': 'checkpoints/finetune-rte-LM_entropy8-$/log.log', 'tensorboard': False, 'tensorboard_logdir': 'tensorboard_logdir', 'init_checkpoint': 'checkpoints/mtdnn-LM_entropy8/model_4.pt', 'data_dir': 'data/canonical_data/bert_base_uncased_lower', 'data_sort_on': False, 'name': 'farmer', 'task_def': 'experiments/glue/glue_task_def.yml', 'train_datasets': ['rte'], 'test_datasets': ['rte'], 'glue_format_on': False, 'mkd_opt': 0, 'do_padding': False, 'update_bert_opt': 0, 'multi_gpu_on': True, 'mem_cum_type': 'simple', 'answer_num_turn': 5, 'answer_mem_drop_p': 0.1, 'answer_att_hidden_size': 128, 'answer_att_type': 'bilinear', 'answer_rnn_type': 'gru', 'answer_sum_att_type': 'bilinear', 'answer_merge_opt': 1, 'answer_mem_type': 1, 'max_answer_len': 10, 'answer_dropout_p': 0.1, 'answer_weight_norm_on': False, 'dump_state_on': False, 'answer_opt': 1, 'mtl_opt': 0, 'ratio': 0, 'mix_opt': 0, 'max_seq_len': 512, 'init_ratio': 1, 'encoder_type': <EncoderModelType.BERT: 1>, 'num_hidden_layers': -1, 'bert_model_type': 'bert-base-uncased', 'do_lower_case': False, 'masked_lm_prob': 0.15, 'short_seq_prob': 0.2, 'max_predictions_per_seq': 128, 'bin_on': False, 'bin_size': 64, 'bin_grow_ratio': 0.5, 'cuda': True, 'log_per_updates': 500, 'save_per_updates': 10000, 'save_per_updates_on': False, 'epochs': 40, 'batch_size': 8, 'batch_size_eval': 8, 'optimizer': 'adamax', 'grad_clipping': 0.0, 'global_grad_clipping': 1.0, 'weight_decay': 0, 'learning_rate': 5e-05, 'momentum': 0, 'warmup': 0.1, 'warmup_schedule': 'warmup_linear', 'adam_eps': 1e-06, 'vb_dropout': True, 'dropout_p': 0.1, 'dropout_w': 0.0, 'bert_dropout_p': 0.1, 'model_ckpt': 'checkpoints/model_0.pt', 'resume': False, 'have_lr_scheduler': True, 'multi_step_lr': '10,20,30', 'lr_gamma': 0.5, 'scheduler_type': 'ms', 'output_dir': 'checkpoints/finetune-rte-LM_entropy8-$', 'seed': 2018, 'grad_accumulation_step': 4, 'fp16': False, 'fp16_opt_level': 'O1', 'adv_train': False, 'adv_opt': 0, 'adv_norm_level': 0, 'adv_p_norm': 'inf', 'adv_alpha': 1, 'adv_k': 1, 'adv_step_size': 0.001, 'adv_noise_var': 1e-05, 'adv_epsilon': 1e-06, 'loss_pred': True, 'collect_uncertainty': None, 'collect_topk': 0.1, 'load_ranked_data': None, 'mc_dropout': 0, 'finetune': True, 'encode_mode': False, 'task_def_list': [{'self': '{}', 'label_vocab': '<data_utils.vocab.Vocabulary object at 0x7f6661c907f0>', 'n_class': '2', 'data_type': '<DataFormat.PremiseAndOneHypothesis: 2>', 'task_type': '<TaskType.Classification: 1>', 'metric_meta': '(<Metric.ACC: 0>,)', 'split_names': "['train', 'dev', 'test']", 'enable_san': 'False', 'dropout_p': 'None', 'loss': '<LossCriterion.CeCriterion: 0>', 'kd_loss': '<LossCriterion.MseCriterion: 1>', 'adv_loss': '<LossCriterion.SymKlCriterion: 7>', '__class__': "<class 'experiments.exp_def.TaskDef'>"}]}
+01/08/2021 12:34:06 ####################
+01/08/2021 12:34:06 ############# Gradient Accumulation Info #############
+01/08/2021 12:34:06 number of step: 12480
+01/08/2021 12:34:06 number of grad grad_accumulation step: 4
+01/08/2021 12:34:06 adjusted number of step: 3120
+01/08/2021 12:34:06 ############# Gradient Accumulation Info #############
+01/08/2021 12:34:16 
+############# Model Arch of MT-DNN #############
+SANBertNetwork(
+  (dropout_list): ModuleList(
+    (0): DropoutWrapper()
+    (1): DropoutWrapper()
+    (2): DropoutWrapper()
+    (3): DropoutWrapper()
+    (4): DropoutWrapper()
+    (5): DropoutWrapper()
+    (6): DropoutWrapper()
+    (7): DropoutWrapper()
+  )
+  (bert): BertModel(
+    (embeddings): BertEmbeddings(
+      (word_embeddings): Embedding(30522, 768, padding_idx=0)
+      (position_embeddings): Embedding(512, 768)
+      (token_type_embeddings): Embedding(2, 768)
+      (LayerNorm): LayerNorm((768,), eps=1e-12, elementwise_affine=True)
+      (dropout): Dropout(p=0.1, inplace=False)
+    )
+    (encoder): BertEncoder(
+      (layer): ModuleList(
+        (0): BertLayer(
+          (attention): BertAttention(
+            (self): BertSelfAttention(
+              (query): Linear(in_features=768, out_features=768, bias=True)
+              (key): Linear(in_features=768, out_features=768, bias=True)
+              (value): Linear(in_features=768, out_features=768, bias=True)
+              (dropout): Dropout(p=0.1, inplace=False)
+            )
+            (output): BertSelfOutput(
+              (dense): Linear(in_features=768, out_features=768, bias=True)
+              (LayerNorm): LayerNorm((768,), eps=1e-12, elementwise_affine=True)
+              (dropout): Dropout(p=0.1, inplace=False)
+            )
+          )
+          (intermediate): BertIntermediate(
+            (dense): Linear(in_features=768, out_features=3072, bias=True)
+          )
+          (output): BertOutput(
+            (dense): Linear(in_features=3072, out_features=768, bias=True)
+            (LayerNorm): LayerNorm((768,), eps=1e-12, elementwise_affine=True)
+            (dropout): Dropout(p=0.1, inplace=False)
+          )
+        )
+        (1): BertLayer(
+          (attention): BertAttention(
+            (self): BertSelfAttention(
+              (query): Linear(in_features=768, out_features=768, bias=True)
+              (key): Linear(in_features=768, out_features=768, bias=True)
+              (value): Linear(in_features=768, out_features=768, bias=True)
+              (dropout): Dropout(p=0.1, inplace=False)
+            )
+            (output): BertSelfOutput(
+              (dense): Linear(in_features=768, out_features=768, bias=True)
+              (LayerNorm): LayerNorm((768,), eps=1e-12, elementwise_affine=True)
+              (dropout): Dropout(p=0.1, inplace=False)
+            )
+          )
+          (intermediate): BertIntermediate(
+            (dense): Linear(in_features=768, out_features=3072, bias=True)
+          )
+          (output): BertOutput(
+            (dense): Linear(in_features=3072, out_features=768, bias=True)
+            (LayerNorm): LayerNorm((768,), eps=1e-12, elementwise_affine=True)
+            (dropout): Dropout(p=0.1, inplace=False)
+          )
+        )
+        (2): BertLayer(
+          (attention): BertAttention(
+            (self): BertSelfAttention(
+              (query): Linear(in_features=768, out_features=768, bias=True)
+              (key): Linear(in_features=768, out_features=768, bias=True)
+              (value): Linear(in_features=768, out_features=768, bias=True)
+              (dropout): Dropout(p=0.1, inplace=False)
+            )
+            (output): BertSelfOutput(
+              (dense): Linear(in_features=768, out_features=768, bias=True)
+              (LayerNorm): LayerNorm((768,), eps=1e-12, elementwise_affine=True)
+              (dropout): Dropout(p=0.1, inplace=False)
+            )
+          )
+          (intermediate): BertIntermediate(
+            (dense): Linear(in_features=768, out_features=3072, bias=True)
+          )
+          (output): BertOutput(
+            (dense): Linear(in_features=3072, out_features=768, bias=True)
+            (LayerNorm): LayerNorm((768,), eps=1e-12, elementwise_affine=True)
+            (dropout): Dropout(p=0.1, inplace=False)
+          )
+        )
+        (3): BertLayer(
+          (attention): BertAttention(
+            (self): BertSelfAttention(
+              (query): Linear(in_features=768, out_features=768, bias=True)
+              (key): Linear(in_features=768, out_features=768, bias=True)
+              (value): Linear(in_features=768, out_features=768, bias=True)
+              (dropout): Dropout(p=0.1, inplace=False)
+            )
+            (output): BertSelfOutput(
+              (dense): Linear(in_features=768, out_features=768, bias=True)
+              (LayerNorm): LayerNorm((768,), eps=1e-12, elementwise_affine=True)
+              (dropout): Dropout(p=0.1, inplace=False)
+            )
+          )
+          (intermediate): BertIntermediate(
+            (dense): Linear(in_features=768, out_features=3072, bias=True)
+          )
+          (output): BertOutput(
+            (dense): Linear(in_features=3072, out_features=768, bias=True)
+            (LayerNorm): LayerNorm((768,), eps=1e-12, elementwise_affine=True)
+            (dropout): Dropout(p=0.1, inplace=False)
+          )
+        )
+        (4): BertLayer(
+          (attention): BertAttention(
+            (self): BertSelfAttention(
+              (query): Linear(in_features=768, out_features=768, bias=True)
+              (key): Linear(in_features=768, out_features=768, bias=True)
+              (value): Linear(in_features=768, out_features=768, bias=True)
+              (dropout): Dropout(p=0.1, inplace=False)
+            )
+            (output): BertSelfOutput(
+              (dense): Linear(in_features=768, out_features=768, bias=True)
+              (LayerNorm): LayerNorm((768,), eps=1e-12, elementwise_affine=True)
+              (dropout): Dropout(p=0.1, inplace=False)
+            )
+          )
+          (intermediate): BertIntermediate(
+            (dense): Linear(in_features=768, out_features=3072, bias=True)
+          )
+          (output): BertOutput(
+            (dense): Linear(in_features=3072, out_features=768, bias=True)
+            (LayerNorm): LayerNorm((768,), eps=1e-12, elementwise_affine=True)
+            (dropout): Dropout(p=0.1, inplace=False)
+          )
+        )
+        (5): BertLayer(
+          (attention): BertAttention(
+            (self): BertSelfAttention(
+              (query): Linear(in_features=768, out_features=768, bias=True)
+              (key): Linear(in_features=768, out_features=768, bias=True)
+              (value): Linear(in_features=768, out_features=768, bias=True)
+              (dropout): Dropout(p=0.1, inplace=False)
+            )
+            (output): BertSelfOutput(
+              (dense): Linear(in_features=768, out_features=768, bias=True)
+              (LayerNorm): LayerNorm((768,), eps=1e-12, elementwise_affine=True)
+              (dropout): Dropout(p=0.1, inplace=False)
+            )
+          )
+          (intermediate): BertIntermediate(
+            (dense): Linear(in_features=768, out_features=3072, bias=True)
+          )
+          (output): BertOutput(
+            (dense): Linear(in_features=3072, out_features=768, bias=True)
+            (LayerNorm): LayerNorm((768,), eps=1e-12, elementwise_affine=True)
+            (dropout): Dropout(p=0.1, inplace=False)
+          )
+        )
+        (6): BertLayer(
+          (attention): BertAttention(
+            (self): BertSelfAttention(
+              (query): Linear(in_features=768, out_features=768, bias=True)
+              (key): Linear(in_features=768, out_features=768, bias=True)
+              (value): Linear(in_features=768, out_features=768, bias=True)
+              (dropout): Dropout(p=0.1, inplace=False)
+            )
+            (output): BertSelfOutput(
+              (dense): Linear(in_features=768, out_features=768, bias=True)
+              (LayerNorm): LayerNorm((768,), eps=1e-12, elementwise_affine=True)
+              (dropout): Dropout(p=0.1, inplace=False)
+            )
+          )
+          (intermediate): BertIntermediate(
+            (dense): Linear(in_features=768, out_features=3072, bias=True)
+          )
+          (output): BertOutput(
+            (dense): Linear(in_features=3072, out_features=768, bias=True)
+            (LayerNorm): LayerNorm((768,), eps=1e-12, elementwise_affine=True)
+            (dropout): Dropout(p=0.1, inplace=False)
+          )
+        )
+        (7): BertLayer(
+          (attention): BertAttention(
+            (self): BertSelfAttention(
+              (query): Linear(in_features=768, out_features=768, bias=True)
+              (key): Linear(in_features=768, out_features=768, bias=True)
+              (value): Linear(in_features=768, out_features=768, bias=True)
+              (dropout): Dropout(p=0.1, inplace=False)
+            )
+            (output): BertSelfOutput(
+              (dense): Linear(in_features=768, out_features=768, bias=True)
+              (LayerNorm): LayerNorm((768,), eps=1e-12, elementwise_affine=True)
+              (dropout): Dropout(p=0.1, inplace=False)
+            )
+          )
+          (intermediate): BertIntermediate(
+            (dense): Linear(in_features=768, out_features=3072, bias=True)
+          )
+          (output): BertOutput(
+            (dense): Linear(in_features=3072, out_features=768, bias=True)
+            (LayerNorm): LayerNorm((768,), eps=1e-12, elementwise_affine=True)
+            (dropout): Dropout(p=0.1, inplace=False)
+          )
+        )
+        (8): BertLayer(
+          (attention): BertAttention(
+            (self): BertSelfAttention(
+              (query): Linear(in_features=768, out_features=768, bias=True)
+              (key): Linear(in_features=768, out_features=768, bias=True)
+              (value): Linear(in_features=768, out_features=768, bias=True)
+              (dropout): Dropout(p=0.1, inplace=False)
+            )
+            (output): BertSelfOutput(
+              (dense): Linear(in_features=768, out_features=768, bias=True)
+              (LayerNorm): LayerNorm((768,), eps=1e-12, elementwise_affine=True)
+              (dropout): Dropout(p=0.1, inplace=False)
+            )
+          )
+          (intermediate): BertIntermediate(
+            (dense): Linear(in_features=768, out_features=3072, bias=True)
+          )
+          (output): BertOutput(
+            (dense): Linear(in_features=3072, out_features=768, bias=True)
+            (LayerNorm): LayerNorm((768,), eps=1e-12, elementwise_affine=True)
+            (dropout): Dropout(p=0.1, inplace=False)
+          )
+        )
+        (9): BertLayer(
+          (attention): BertAttention(
+            (self): BertSelfAttention(
+              (query): Linear(in_features=768, out_features=768, bias=True)
+              (key): Linear(in_features=768, out_features=768, bias=True)
+              (value): Linear(in_features=768, out_features=768, bias=True)
+              (dropout): Dropout(p=0.1, inplace=False)
+            )
+            (output): BertSelfOutput(
+              (dense): Linear(in_features=768, out_features=768, bias=True)
+              (LayerNorm): LayerNorm((768,), eps=1e-12, elementwise_affine=True)
+              (dropout): Dropout(p=0.1, inplace=False)
+            )
+          )
+          (intermediate): BertIntermediate(
+            (dense): Linear(in_features=768, out_features=3072, bias=True)
+          )
+          (output): BertOutput(
+            (dense): Linear(in_features=3072, out_features=768, bias=True)
+            (LayerNorm): LayerNorm((768,), eps=1e-12, elementwise_affine=True)
+            (dropout): Dropout(p=0.1, inplace=False)
+          )
+        )
+        (10): BertLayer(
+          (attention): BertAttention(
+            (self): BertSelfAttention(
+              (query): Linear(in_features=768, out_features=768, bias=True)
+              (key): Linear(in_features=768, out_features=768, bias=True)
+              (value): Linear(in_features=768, out_features=768, bias=True)
+              (dropout): Dropout(p=0.1, inplace=False)
+            )
+            (output): BertSelfOutput(
+              (dense): Linear(in_features=768, out_features=768, bias=True)
+              (LayerNorm): LayerNorm((768,), eps=1e-12, elementwise_affine=True)
+              (dropout): Dropout(p=0.1, inplace=False)
+            )
+          )
+          (intermediate): BertIntermediate(
+            (dense): Linear(in_features=768, out_features=3072, bias=True)
+          )
+          (output): BertOutput(
+            (dense): Linear(in_features=3072, out_features=768, bias=True)
+            (LayerNorm): LayerNorm((768,), eps=1e-12, elementwise_affine=True)
+            (dropout): Dropout(p=0.1, inplace=False)
+          )
+        )
+        (11): BertLayer(
+          (attention): BertAttention(
+            (self): BertSelfAttention(
+              (query): Linear(in_features=768, out_features=768, bias=True)
+              (key): Linear(in_features=768, out_features=768, bias=True)
+              (value): Linear(in_features=768, out_features=768, bias=True)
+              (dropout): Dropout(p=0.1, inplace=False)
+            )
+            (output): BertSelfOutput(
+              (dense): Linear(in_features=768, out_features=768, bias=True)
+              (LayerNorm): LayerNorm((768,), eps=1e-12, elementwise_affine=True)
+              (dropout): Dropout(p=0.1, inplace=False)
+            )
+          )
+          (intermediate): BertIntermediate(
+            (dense): Linear(in_features=768, out_features=3072, bias=True)
+          )
+          (output): BertOutput(
+            (dense): Linear(in_features=3072, out_features=768, bias=True)
+            (LayerNorm): LayerNorm((768,), eps=1e-12, elementwise_affine=True)
+            (dropout): Dropout(p=0.1, inplace=False)
+          )
+        )
+      )
+    )
+    (pooler): BertPooler(
+      (dense): Linear(in_features=768, out_features=768, bias=True)
+      (activation): Tanh()
+    )
+  )
+  (loss_pred_fc): Linear(in_features=768, out_features=1, bias=True)
+  (scoring_list): ModuleList(
+    (0): Linear(in_features=768, out_features=3, bias=True)
+    (1): Linear(in_features=768, out_features=2, bias=True)
+    (2): Linear(in_features=768, out_features=2, bias=True)
+    (3): Linear(in_features=768, out_features=2, bias=True)
+    (4): Linear(in_features=768, out_features=2, bias=True)
+    (5): Linear(in_features=768, out_features=2, bias=True)
+    (6): Linear(in_features=768, out_features=2, bias=True)
+    (7): Linear(in_features=768, out_features=1, bias=True)
+  )
+)
+
+01/08/2021 12:34:16 Total number of params: 109495313
+01/08/2021 12:34:16 At epoch 0
+01/08/2021 12:34:16 Task [ 1] updates[     1] train loss[0.73655] remaining[0:03:11]
+01/08/2021 12:35:17 Task rte -- epoch 0 -- Dev ACC: 66.065
+01/08/2021 12:35:28 [new test scores saved.]
+01/08/2021 12:35:32 At epoch 1
+01/08/2021 12:36:08 Task [ 1] updates[   500] train loss[0.57446] remaining[0:00:23]
+01/08/2021 12:36:32 Task rte -- epoch 1 -- Dev ACC: 68.953
+01/08/2021 12:36:43 [new test scores saved.]
+01/08/2021 12:36:50 At epoch 2
+01/08/2021 12:37:51 Task rte -- epoch 2 -- Dev ACC: 68.953
+01/08/2021 12:38:02 [new test scores saved.]
+01/08/2021 12:38:09 At epoch 3
+01/08/2021 12:38:21 Task [ 1] updates[  1000] train loss[0.46955] remaining[0:00:47]
+01/08/2021 12:39:09 Task rte -- epoch 3 -- Dev ACC: 69.675
+01/08/2021 12:39:20 [new test scores saved.]
+01/08/2021 12:39:26 At epoch 4
+01/08/2021 12:40:14 Task [ 1] updates[  1500] train loss[0.38386] remaining[0:00:11]
+01/08/2021 12:40:27 Task rte -- epoch 4 -- Dev ACC: 74.368
+01/08/2021 12:40:38 [new test scores saved.]
+01/08/2021 12:40:44 At epoch 5
+01/08/2021 12:41:44 Task rte -- epoch 5 -- Dev ACC: 72.202
+01/08/2021 12:41:55 [new test scores saved.]
+01/08/2021 12:42:01 At epoch 6
+01/08/2021 12:42:25 Task [ 1] updates[  2000] train loss[0.31525] remaining[0:00:34]
+01/08/2021 12:43:01 Task rte -- epoch 6 -- Dev ACC: 72.202
+01/08/2021 12:43:13 [new test scores saved.]
+01/08/2021 12:43:20 At epoch 7
+01/08/2021 12:44:20 Task rte -- epoch 7 -- Dev ACC: 71.841
+01/08/2021 12:44:31 [new test scores saved.]
+01/08/2021 12:44:37 At epoch 8
+01/08/2021 12:44:38 Task [ 1] updates[  2500] train loss[0.26624] remaining[0:01:03]
+01/08/2021 12:45:37 Task rte -- epoch 8 -- Dev ACC: 72.924
+01/08/2021 12:45:49 [new test scores saved.]
+01/08/2021 12:45:55 At epoch 9
+01/08/2021 12:46:31 Task [ 1] updates[  3000] train loss[0.23023] remaining[0:00:22]
+01/08/2021 12:46:55 Task rte -- epoch 9 -- Dev ACC: 73.285
+01/08/2021 12:47:06 [new test scores saved.]
+01/08/2021 12:47:13 At epoch 10
+01/08/2021 12:48:13 Task rte -- epoch 10 -- Dev ACC: 73.646
+01/08/2021 12:48:24 [new test scores saved.]
+01/08/2021 12:48:31 At epoch 11
+01/08/2021 12:48:44 Task [ 1] updates[  3500] train loss[0.20767] remaining[0:00:47]
+01/08/2021 12:49:32 Task rte -- epoch 11 -- Dev ACC: 47.292
+01/08/2021 12:49:43 [new test scores saved.]
+01/08/2021 12:49:50 At epoch 12
+01/08/2021 12:50:39 Task [ 1] updates[  4000] train loss[1.02285] remaining[0:00:10]
+01/08/2021 12:50:51 Task rte -- epoch 12 -- Dev ACC: 47.292
+01/08/2021 12:51:02 [new test scores saved.]
+01/08/2021 12:51:09 At epoch 13
+01/08/2021 12:52:11 Task rte -- epoch 13 -- Dev ACC: 47.292
+01/08/2021 12:52:22 [new test scores saved.]
+01/08/2021 12:53:06 1
+01/08/2021 12:53:06 Launching the MT-DNN training
+01/08/2021 12:53:06 Loading data/canonical_data/bert_base_uncased_lower/rte_train.json as task 1
+01/08/2021 12:53:06 ####################
+01/08/2021 12:53:06 {'log_file': 'checkpoints/finetune-rte-LM_entropy8-$/log.log', 'tensorboard': False, 'tensorboard_logdir': 'tensorboard_logdir', 'init_checkpoint': 'checkpoints/mtdnn-LM_entropy8/model_4.pt', 'data_dir': 'data/canonical_data/bert_base_uncased_lower', 'data_sort_on': False, 'name': 'farmer', 'task_def': 'experiments/glue/glue_task_def.yml', 'train_datasets': ['rte'], 'test_datasets': ['rte'], 'glue_format_on': False, 'mkd_opt': 0, 'do_padding': False, 'update_bert_opt': 0, 'multi_gpu_on': True, 'mem_cum_type': 'simple', 'answer_num_turn': 5, 'answer_mem_drop_p': 0.1, 'answer_att_hidden_size': 128, 'answer_att_type': 'bilinear', 'answer_rnn_type': 'gru', 'answer_sum_att_type': 'bilinear', 'answer_merge_opt': 1, 'answer_mem_type': 1, 'max_answer_len': 10, 'answer_dropout_p': 0.1, 'answer_weight_norm_on': False, 'dump_state_on': False, 'answer_opt': 1, 'mtl_opt': 0, 'ratio': 0, 'mix_opt': 0, 'max_seq_len': 512, 'init_ratio': 1, 'encoder_type': <EncoderModelType.BERT: 1>, 'num_hidden_layers': -1, 'bert_model_type': 'bert-base-uncased', 'do_lower_case': False, 'masked_lm_prob': 0.15, 'short_seq_prob': 0.2, 'max_predictions_per_seq': 128, 'bin_on': False, 'bin_size': 64, 'bin_grow_ratio': 0.5, 'cuda': True, 'log_per_updates': 500, 'save_per_updates': 10000, 'save_per_updates_on': False, 'epochs': 40, 'batch_size': 4, 'batch_size_eval': 8, 'optimizer': 'adamax', 'grad_clipping': 0.0, 'global_grad_clipping': 1.0, 'weight_decay': 0, 'learning_rate': 5e-05, 'momentum': 0, 'warmup': 0.1, 'warmup_schedule': 'warmup_linear', 'adam_eps': 1e-06, 'vb_dropout': True, 'dropout_p': 0.1, 'dropout_w': 0.0, 'bert_dropout_p': 0.1, 'model_ckpt': 'checkpoints/model_0.pt', 'resume': False, 'have_lr_scheduler': True, 'multi_step_lr': '10,20,30', 'lr_gamma': 0.5, 'scheduler_type': 'ms', 'output_dir': 'checkpoints/finetune-rte-LM_entropy8-$', 'seed': 2018, 'grad_accumulation_step': 1, 'fp16': False, 'fp16_opt_level': 'O1', 'adv_train': False, 'adv_opt': 0, 'adv_norm_level': 0, 'adv_p_norm': 'inf', 'adv_alpha': 1, 'adv_k': 1, 'adv_step_size': 0.001, 'adv_noise_var': 1e-05, 'adv_epsilon': 1e-06, 'loss_pred': True, 'collect_uncertainty': None, 'collect_topk': 0.1, 'load_ranked_data': None, 'mc_dropout': 0, 'finetune': True, 'encode_mode': False, 'task_def_list': [{'self': '{}', 'label_vocab': '<data_utils.vocab.Vocabulary object at 0x7f7c1d3c6a30>', 'n_class': '2', 'data_type': '<DataFormat.PremiseAndOneHypothesis: 2>', 'task_type': '<TaskType.Classification: 1>', 'metric_meta': '(<Metric.ACC: 0>,)', 'split_names': "['train', 'dev', 'test']", 'enable_san': 'False', 'dropout_p': 'None', 'loss': '<LossCriterion.CeCriterion: 0>', 'kd_loss': '<LossCriterion.MseCriterion: 1>', 'adv_loss': '<LossCriterion.SymKlCriterion: 7>', '__class__': "<class 'experiments.exp_def.TaskDef'>"}]}
+01/08/2021 12:53:06 ####################
+01/08/2021 12:53:06 ############# Gradient Accumulation Info #############
+01/08/2021 12:53:06 number of step: 24920
+01/08/2021 12:53:06 number of grad grad_accumulation step: 1
+01/08/2021 12:53:06 adjusted number of step: 24920
+01/08/2021 12:53:06 ############# Gradient Accumulation Info #############
+01/08/2021 12:53:16 
+############# Model Arch of MT-DNN #############
+SANBertNetwork(
+  (dropout_list): ModuleList(
+    (0): DropoutWrapper()
+    (1): DropoutWrapper()
+    (2): DropoutWrapper()
+    (3): DropoutWrapper()
+    (4): DropoutWrapper()
+    (5): DropoutWrapper()
+    (6): DropoutWrapper()
+    (7): DropoutWrapper()
+  )
+  (bert): BertModel(
+    (embeddings): BertEmbeddings(
+      (word_embeddings): Embedding(30522, 768, padding_idx=0)
+      (position_embeddings): Embedding(512, 768)
+      (token_type_embeddings): Embedding(2, 768)
+      (LayerNorm): LayerNorm((768,), eps=1e-12, elementwise_affine=True)
+      (dropout): Dropout(p=0.1, inplace=False)
+    )
+    (encoder): BertEncoder(
+      (layer): ModuleList(
+        (0): BertLayer(
+          (attention): BertAttention(
+            (self): BertSelfAttention(
+              (query): Linear(in_features=768, out_features=768, bias=True)
+              (key): Linear(in_features=768, out_features=768, bias=True)
+              (value): Linear(in_features=768, out_features=768, bias=True)
+              (dropout): Dropout(p=0.1, inplace=False)
+            )
+            (output): BertSelfOutput(
+              (dense): Linear(in_features=768, out_features=768, bias=True)
+              (LayerNorm): LayerNorm((768,), eps=1e-12, elementwise_affine=True)
+              (dropout): Dropout(p=0.1, inplace=False)
+            )
+          )
+          (intermediate): BertIntermediate(
+            (dense): Linear(in_features=768, out_features=3072, bias=True)
+          )
+          (output): BertOutput(
+            (dense): Linear(in_features=3072, out_features=768, bias=True)
+            (LayerNorm): LayerNorm((768,), eps=1e-12, elementwise_affine=True)
+            (dropout): Dropout(p=0.1, inplace=False)
+          )
+        )
+        (1): BertLayer(
+          (attention): BertAttention(
+            (self): BertSelfAttention(
+              (query): Linear(in_features=768, out_features=768, bias=True)
+              (key): Linear(in_features=768, out_features=768, bias=True)
+              (value): Linear(in_features=768, out_features=768, bias=True)
+              (dropout): Dropout(p=0.1, inplace=False)
+            )
+            (output): BertSelfOutput(
+              (dense): Linear(in_features=768, out_features=768, bias=True)
+              (LayerNorm): LayerNorm((768,), eps=1e-12, elementwise_affine=True)
+              (dropout): Dropout(p=0.1, inplace=False)
+            )
+          )
+          (intermediate): BertIntermediate(
+            (dense): Linear(in_features=768, out_features=3072, bias=True)
+          )
+          (output): BertOutput(
+            (dense): Linear(in_features=3072, out_features=768, bias=True)
+            (LayerNorm): LayerNorm((768,), eps=1e-12, elementwise_affine=True)
+            (dropout): Dropout(p=0.1, inplace=False)
+          )
+        )
+        (2): BertLayer(
+          (attention): BertAttention(
+            (self): BertSelfAttention(
+              (query): Linear(in_features=768, out_features=768, bias=True)
+              (key): Linear(in_features=768, out_features=768, bias=True)
+              (value): Linear(in_features=768, out_features=768, bias=True)
+              (dropout): Dropout(p=0.1, inplace=False)
+            )
+            (output): BertSelfOutput(
+              (dense): Linear(in_features=768, out_features=768, bias=True)
+              (LayerNorm): LayerNorm((768,), eps=1e-12, elementwise_affine=True)
+              (dropout): Dropout(p=0.1, inplace=False)
+            )
+          )
+          (intermediate): BertIntermediate(
+            (dense): Linear(in_features=768, out_features=3072, bias=True)
+          )
+          (output): BertOutput(
+            (dense): Linear(in_features=3072, out_features=768, bias=True)
+            (LayerNorm): LayerNorm((768,), eps=1e-12, elementwise_affine=True)
+            (dropout): Dropout(p=0.1, inplace=False)
+          )
+        )
+        (3): BertLayer(
+          (attention): BertAttention(
+            (self): BertSelfAttention(
+              (query): Linear(in_features=768, out_features=768, bias=True)
+              (key): Linear(in_features=768, out_features=768, bias=True)
+              (value): Linear(in_features=768, out_features=768, bias=True)
+              (dropout): Dropout(p=0.1, inplace=False)
+            )
+            (output): BertSelfOutput(
+              (dense): Linear(in_features=768, out_features=768, bias=True)
+              (LayerNorm): LayerNorm((768,), eps=1e-12, elementwise_affine=True)
+              (dropout): Dropout(p=0.1, inplace=False)
+            )
+          )
+          (intermediate): BertIntermediate(
+            (dense): Linear(in_features=768, out_features=3072, bias=True)
+          )
+          (output): BertOutput(
+            (dense): Linear(in_features=3072, out_features=768, bias=True)
+            (LayerNorm): LayerNorm((768,), eps=1e-12, elementwise_affine=True)
+            (dropout): Dropout(p=0.1, inplace=False)
+          )
+        )
+        (4): BertLayer(
+          (attention): BertAttention(
+            (self): BertSelfAttention(
+              (query): Linear(in_features=768, out_features=768, bias=True)
+              (key): Linear(in_features=768, out_features=768, bias=True)
+              (value): Linear(in_features=768, out_features=768, bias=True)
+              (dropout): Dropout(p=0.1, inplace=False)
+            )
+            (output): BertSelfOutput(
+              (dense): Linear(in_features=768, out_features=768, bias=True)
+              (LayerNorm): LayerNorm((768,), eps=1e-12, elementwise_affine=True)
+              (dropout): Dropout(p=0.1, inplace=False)
+            )
+          )
+          (intermediate): BertIntermediate(
+            (dense): Linear(in_features=768, out_features=3072, bias=True)
+          )
+          (output): BertOutput(
+            (dense): Linear(in_features=3072, out_features=768, bias=True)
+            (LayerNorm): LayerNorm((768,), eps=1e-12, elementwise_affine=True)
+            (dropout): Dropout(p=0.1, inplace=False)
+          )
+        )
+        (5): BertLayer(
+          (attention): BertAttention(
+            (self): BertSelfAttention(
+              (query): Linear(in_features=768, out_features=768, bias=True)
+              (key): Linear(in_features=768, out_features=768, bias=True)
+              (value): Linear(in_features=768, out_features=768, bias=True)
+              (dropout): Dropout(p=0.1, inplace=False)
+            )
+            (output): BertSelfOutput(
+              (dense): Linear(in_features=768, out_features=768, bias=True)
+              (LayerNorm): LayerNorm((768,), eps=1e-12, elementwise_affine=True)
+              (dropout): Dropout(p=0.1, inplace=False)
+            )
+          )
+          (intermediate): BertIntermediate(
+            (dense): Linear(in_features=768, out_features=3072, bias=True)
+          )
+          (output): BertOutput(
+            (dense): Linear(in_features=3072, out_features=768, bias=True)
+            (LayerNorm): LayerNorm((768,), eps=1e-12, elementwise_affine=True)
+            (dropout): Dropout(p=0.1, inplace=False)
+          )
+        )
+        (6): BertLayer(
+          (attention): BertAttention(
+            (self): BertSelfAttention(
+              (query): Linear(in_features=768, out_features=768, bias=True)
+              (key): Linear(in_features=768, out_features=768, bias=True)
+              (value): Linear(in_features=768, out_features=768, bias=True)
+              (dropout): Dropout(p=0.1, inplace=False)
+            )
+            (output): BertSelfOutput(
+              (dense): Linear(in_features=768, out_features=768, bias=True)
+              (LayerNorm): LayerNorm((768,), eps=1e-12, elementwise_affine=True)
+              (dropout): Dropout(p=0.1, inplace=False)
+            )
+          )
+          (intermediate): BertIntermediate(
+            (dense): Linear(in_features=768, out_features=3072, bias=True)
+          )
+          (output): BertOutput(
+            (dense): Linear(in_features=3072, out_features=768, bias=True)
+            (LayerNorm): LayerNorm((768,), eps=1e-12, elementwise_affine=True)
+            (dropout): Dropout(p=0.1, inplace=False)
+          )
+        )
+        (7): BertLayer(
+          (attention): BertAttention(
+            (self): BertSelfAttention(
+              (query): Linear(in_features=768, out_features=768, bias=True)
+              (key): Linear(in_features=768, out_features=768, bias=True)
+              (value): Linear(in_features=768, out_features=768, bias=True)
+              (dropout): Dropout(p=0.1, inplace=False)
+            )
+            (output): BertSelfOutput(
+              (dense): Linear(in_features=768, out_features=768, bias=True)
+              (LayerNorm): LayerNorm((768,), eps=1e-12, elementwise_affine=True)
+              (dropout): Dropout(p=0.1, inplace=False)
+            )
+          )
+          (intermediate): BertIntermediate(
+            (dense): Linear(in_features=768, out_features=3072, bias=True)
+          )
+          (output): BertOutput(
+            (dense): Linear(in_features=3072, out_features=768, bias=True)
+            (LayerNorm): LayerNorm((768,), eps=1e-12, elementwise_affine=True)
+            (dropout): Dropout(p=0.1, inplace=False)
+          )
+        )
+        (8): BertLayer(
+          (attention): BertAttention(
+            (self): BertSelfAttention(
+              (query): Linear(in_features=768, out_features=768, bias=True)
+              (key): Linear(in_features=768, out_features=768, bias=True)
+              (value): Linear(in_features=768, out_features=768, bias=True)
+              (dropout): Dropout(p=0.1, inplace=False)
+            )
+            (output): BertSelfOutput(
+              (dense): Linear(in_features=768, out_features=768, bias=True)
+              (LayerNorm): LayerNorm((768,), eps=1e-12, elementwise_affine=True)
+              (dropout): Dropout(p=0.1, inplace=False)
+            )
+          )
+          (intermediate): BertIntermediate(
+            (dense): Linear(in_features=768, out_features=3072, bias=True)
+          )
+          (output): BertOutput(
+            (dense): Linear(in_features=3072, out_features=768, bias=True)
+            (LayerNorm): LayerNorm((768,), eps=1e-12, elementwise_affine=True)
+            (dropout): Dropout(p=0.1, inplace=False)
+          )
+        )
+        (9): BertLayer(
+          (attention): BertAttention(
+            (self): BertSelfAttention(
+              (query): Linear(in_features=768, out_features=768, bias=True)
+              (key): Linear(in_features=768, out_features=768, bias=True)
+              (value): Linear(in_features=768, out_features=768, bias=True)
+              (dropout): Dropout(p=0.1, inplace=False)
+            )
+            (output): BertSelfOutput(
+              (dense): Linear(in_features=768, out_features=768, bias=True)
+              (LayerNorm): LayerNorm((768,), eps=1e-12, elementwise_affine=True)
+              (dropout): Dropout(p=0.1, inplace=False)
+            )
+          )
+          (intermediate): BertIntermediate(
+            (dense): Linear(in_features=768, out_features=3072, bias=True)
+          )
+          (output): BertOutput(
+            (dense): Linear(in_features=3072, out_features=768, bias=True)
+            (LayerNorm): LayerNorm((768,), eps=1e-12, elementwise_affine=True)
+            (dropout): Dropout(p=0.1, inplace=False)
+          )
+        )
+        (10): BertLayer(
+          (attention): BertAttention(
+            (self): BertSelfAttention(
+              (query): Linear(in_features=768, out_features=768, bias=True)
+              (key): Linear(in_features=768, out_features=768, bias=True)
+              (value): Linear(in_features=768, out_features=768, bias=True)
+              (dropout): Dropout(p=0.1, inplace=False)
+            )
+            (output): BertSelfOutput(
+              (dense): Linear(in_features=768, out_features=768, bias=True)
+              (LayerNorm): LayerNorm((768,), eps=1e-12, elementwise_affine=True)
+              (dropout): Dropout(p=0.1, inplace=False)
+            )
+          )
+          (intermediate): BertIntermediate(
+            (dense): Linear(in_features=768, out_features=3072, bias=True)
+          )
+          (output): BertOutput(
+            (dense): Linear(in_features=3072, out_features=768, bias=True)
+            (LayerNorm): LayerNorm((768,), eps=1e-12, elementwise_affine=True)
+            (dropout): Dropout(p=0.1, inplace=False)
+          )
+        )
+        (11): BertLayer(
+          (attention): BertAttention(
+            (self): BertSelfAttention(
+              (query): Linear(in_features=768, out_features=768, bias=True)
+              (key): Linear(in_features=768, out_features=768, bias=True)
+              (value): Linear(in_features=768, out_features=768, bias=True)
+              (dropout): Dropout(p=0.1, inplace=False)
+            )
+            (output): BertSelfOutput(
+              (dense): Linear(in_features=768, out_features=768, bias=True)
+              (LayerNorm): LayerNorm((768,), eps=1e-12, elementwise_affine=True)
+              (dropout): Dropout(p=0.1, inplace=False)
+            )
+          )
+          (intermediate): BertIntermediate(
+            (dense): Linear(in_features=768, out_features=3072, bias=True)
+          )
+          (output): BertOutput(
+            (dense): Linear(in_features=3072, out_features=768, bias=True)
+            (LayerNorm): LayerNorm((768,), eps=1e-12, elementwise_affine=True)
+            (dropout): Dropout(p=0.1, inplace=False)
+          )
+        )
+      )
+    )
+    (pooler): BertPooler(
+      (dense): Linear(in_features=768, out_features=768, bias=True)
+      (activation): Tanh()
+    )
+  )
+  (loss_pred_fc): Linear(in_features=768, out_features=1, bias=True)
+  (scoring_list): ModuleList(
+    (0): Linear(in_features=768, out_features=3, bias=True)
+    (1): Linear(in_features=768, out_features=2, bias=True)
+    (2): Linear(in_features=768, out_features=2, bias=True)
+    (3): Linear(in_features=768, out_features=2, bias=True)
+    (4): Linear(in_features=768, out_features=2, bias=True)
+    (5): Linear(in_features=768, out_features=2, bias=True)
+    (6): Linear(in_features=768, out_features=2, bias=True)
+    (7): Linear(in_features=768, out_features=1, bias=True)
+  )
+)
+
+01/08/2021 12:53:16 Total number of params: 109495313
+01/08/2021 12:53:16 At epoch 0
+01/08/2021 12:53:17 Task [ 1] updates[     1] train loss[0.26663] remaining[0:03:30]
+01/08/2021 12:54:22 Task [ 1] updates[   500] train loss[0.60237] remaining[0:00:16]
+01/08/2021 12:54:39 Task rte -- epoch 0 -- Dev ACC: 65.343
+01/08/2021 12:54:50 [new test scores saved.]
+01/08/2021 12:54:54 At epoch 1
+01/08/2021 12:55:44 Task [ 1] updates[  1000] train loss[0.59573] remaining[0:00:32]
+01/08/2021 12:56:16 Task rte -- epoch 1 -- Dev ACC: 66.426
+01/08/2021 12:56:27 [new test scores saved.]
+01/08/2021 12:56:32 At epoch 2
+01/08/2021 12:57:05 Task [ 1] updates[  1500] train loss[0.57461] remaining[0:00:47]
+01/08/2021 12:57:54 Task rte -- epoch 2 -- Dev ACC: 70.758
+01/08/2021 12:58:05 [new test scores saved.]
+01/08/2021 12:58:09 At epoch 3
+01/08/2021 12:58:26 Task [ 1] updates[  2000] train loss[0.56164] remaining[0:01:03]
+01/08/2021 12:59:30 Task rte -- epoch 3 -- Dev ACC: 68.953
+01/08/2021 12:59:41 [new test scores saved.]
+01/08/2021 12:59:46 At epoch 4
+01/08/2021 12:59:47 Task [ 1] updates[  2500] train loss[0.53493] remaining[0:01:19]
+01/08/2021 01:00:50 Task [ 1] updates[  3000] train loss[0.49943] remaining[0:00:14]
+01/08/2021 01:01:06 Task rte -- epoch 4 -- Dev ACC: 74.007
+01/08/2021 01:01:17 [new test scores saved.]
+01/08/2021 01:01:21 At epoch 5
+01/08/2021 01:02:11 Task [ 1] updates[  3500] train loss[0.46546] remaining[0:00:30]
+01/08/2021 01:02:42 Task rte -- epoch 5 -- Dev ACC: 73.285
+01/08/2021 01:02:53 [new test scores saved.]
+01/08/2021 01:02:57 At epoch 6
+01/08/2021 01:03:30 Task [ 1] updates[  4000] train loss[0.42462] remaining[0:00:44]
+01/08/2021 01:04:17 Task rte -- epoch 6 -- Dev ACC: 71.841
+01/08/2021 01:04:28 [new test scores saved.]
+01/08/2021 01:04:32 At epoch 7
+01/08/2021 01:04:49 Task [ 1] updates[  4500] train loss[0.38802] remaining[0:01:00]
+01/08/2021 01:05:51 Task rte -- epoch 7 -- Dev ACC: 73.285
+01/08/2021 01:06:02 [new test scores saved.]
+01/08/2021 01:06:06 At epoch 8
+01/08/2021 01:06:08 Task [ 1] updates[  5000] train loss[0.35815] remaining[0:01:15]
+01/08/2021 01:07:07 Task [ 1] updates[  5500] train loss[0.33147] remaining[0:00:12]
+01/08/2021 01:07:21 Task rte -- epoch 8 -- Dev ACC: 71.841
+01/08/2021 01:07:32 [new test scores saved.]
+01/08/2021 01:07:37 At epoch 9
+01/08/2021 01:08:24 Task [ 1] updates[  6000] train loss[0.30744] remaining[0:00:27]
+01/08/2021 01:08:53 Task rte -- epoch 9 -- Dev ACC: 69.675
+01/08/2021 01:09:03 [new test scores saved.]
+01/08/2021 01:09:08 At epoch 10
+01/08/2021 01:09:40 Task [ 1] updates[  6500] train loss[0.28822] remaining[0:00:41]
+01/08/2021 01:10:24 Task rte -- epoch 10 -- Dev ACC: 72.563
+01/08/2021 01:10:35 [new test scores saved.]
+01/08/2021 01:10:39 At epoch 11
+01/08/2021 01:10:58 Task [ 1] updates[  7000] train loss[0.26944] remaining[0:01:00]
+01/08/2021 01:11:59 Task rte -- epoch 11 -- Dev ACC: 71.119
+01/08/2021 01:12:10 [new test scores saved.]
+01/08/2021 01:12:14 At epoch 12
+01/08/2021 01:12:17 Task [ 1] updates[  7500] train loss[0.25239] remaining[0:01:16]
+01/08/2021 01:13:21 Task [ 1] updates[  8000] train loss[0.23955] remaining[0:00:12]
+01/08/2021 01:13:34 Task rte -- epoch 12 -- Dev ACC: 72.924
+01/08/2021 01:13:45 [new test scores saved.]
+01/08/2021 01:13:50 At epoch 13
+01/08/2021 01:14:40 Task [ 1] updates[  8500] train loss[0.22622] remaining[0:00:27]
+01/08/2021 01:15:10 Task rte -- epoch 13 -- Dev ACC: 73.646
+01/08/2021 01:15:21 [new test scores saved.]
+01/08/2021 01:15:25 At epoch 14
+01/08/2021 01:16:00 Task [ 1] updates[  9000] train loss[0.21513] remaining[0:00:43]
+01/08/2021 01:16:45 Task rte -- epoch 14 -- Dev ACC: 73.285
+01/08/2021 01:16:56 [new test scores saved.]
+01/08/2021 01:17:00 At epoch 15
+01/08/2021 01:17:20 Task [ 1] updates[  9500] train loss[0.20491] remaining[0:00:59]
+01/08/2021 01:18:19 Task rte -- epoch 15 -- Dev ACC: 72.924
+01/08/2021 01:18:30 [new test scores saved.]
+01/08/2021 01:18:35 At epoch 16
+01/08/2021 01:18:39 Task [ 1] updates[ 10000] train loss[0.19533] remaining[0:01:14]
+01/08/2021 01:19:42 Task [ 1] updates[ 10500] train loss[0.18658] remaining[0:00:11]
+01/08/2021 01:19:55 Task rte -- epoch 16 -- Dev ACC: 74.007
+01/08/2021 01:20:06 [new test scores saved.]
+01/08/2021 01:20:10 At epoch 17
+01/08/2021 01:21:02 Task [ 1] updates[ 11000] train loss[0.17825] remaining[0:00:26]
+01/08/2021 01:21:30 Task rte -- epoch 17 -- Dev ACC: 72.202
+01/08/2021 01:21:41 [new test scores saved.]
+01/08/2021 01:21:46 At epoch 18
+01/08/2021 01:22:21 Task [ 1] updates[ 11500] train loss[0.17054] remaining[0:00:41]
+01/08/2021 01:23:04 Task rte -- epoch 18 -- Dev ACC: 73.646
+01/08/2021 01:23:15 [new test scores saved.]
+01/08/2021 01:23:20 At epoch 19
+01/08/2021 01:23:40 Task [ 1] updates[ 12000] train loss[0.16412] remaining[0:00:58]
+01/08/2021 01:24:39 Task rte -- epoch 19 -- Dev ACC: 72.924
+01/08/2021 01:24:50 [new test scores saved.]
+01/08/2021 01:24:55 At epoch 20
+01/08/2021 01:24:59 Task [ 1] updates[ 12500] train loss[0.15785] remaining[0:01:09]
+01/08/2021 01:26:03 Task [ 1] updates[ 13000] train loss[0.15302] remaining[0:00:10]
+01/08/2021 01:26:15 Task rte -- epoch 20 -- Dev ACC: 73.285
+01/08/2021 01:26:26 [new test scores saved.]
+01/08/2021 01:26:31 At epoch 21
+01/08/2021 01:27:24 Task [ 1] updates[ 13500] train loss[0.14797] remaining[0:00:26]
+01/08/2021 01:27:50 Task rte -- epoch 21 -- Dev ACC: 74.007
+01/08/2021 01:28:01 [new test scores saved.]
+01/08/2021 01:28:06 At epoch 22
+01/08/2021 01:28:43 Task [ 1] updates[ 14000] train loss[0.14275] remaining[0:00:41]
+01/08/2021 01:29:26 Task rte -- epoch 22 -- Dev ACC: 73.285
+01/08/2021 01:29:37 [new test scores saved.]
+01/08/2021 01:29:41 At epoch 23
+01/08/2021 01:30:02 Task [ 1] updates[ 14500] train loss[0.13783] remaining[0:00:56]
+01/08/2021 01:31:01 Task rte -- epoch 23 -- Dev ACC: 73.646
+01/08/2021 01:31:11 [new test scores saved.]
+01/08/2021 01:31:18 At epoch 24
+01/08/2021 01:31:24 Task [ 1] updates[ 15000] train loss[0.13367] remaining[0:01:12]
+01/08/2021 01:32:27 Task [ 1] updates[ 15500] train loss[0.12968] remaining[0:00:09]
+01/08/2021 01:32:38 Task rte -- epoch 24 -- Dev ACC: 74.007
+01/08/2021 01:32:49 [new test scores saved.]
+01/08/2021 01:32:53 At epoch 25
+01/08/2021 01:33:46 Task [ 1] updates[ 16000] train loss[0.12578] remaining[0:00:24]
+01/08/2021 01:34:12 Task rte -- epoch 25 -- Dev ACC: 74.368
+01/08/2021 01:34:23 [new test scores saved.]
+01/08/2021 01:34:28 At epoch 26
+01/08/2021 01:35:06 Task [ 1] updates[ 16500] train loss[0.12204] remaining[0:00:40]
+01/08/2021 01:35:48 Task rte -- epoch 26 -- Dev ACC: 73.646
+01/08/2021 01:35:58 [new test scores saved.]
+01/08/2021 01:36:03 At epoch 27
+01/08/2021 01:36:25 Task [ 1] updates[ 17000] train loss[0.11847] remaining[0:00:54]
+01/08/2021 01:37:23 Task rte -- epoch 27 -- Dev ACC: 73.646
+01/08/2021 01:37:34 [new test scores saved.]
+01/08/2021 01:37:38 At epoch 28
+01/08/2021 01:37:45 Task [ 1] updates[ 17500] train loss[0.11526] remaining[0:01:10]
+01/08/2021 01:38:48 Task [ 1] updates[ 18000] train loss[0.11231] remaining[0:00:08]
+01/08/2021 01:38:58 Task rte -- epoch 28 -- Dev ACC: 72.563
+01/08/2021 01:39:09 [new test scores saved.]
+01/08/2021 01:39:14 At epoch 29
+01/08/2021 01:40:08 Task [ 1] updates[ 18500] train loss[0.10929] remaining[0:00:23]
+01/08/2021 01:40:33 Task rte -- epoch 29 -- Dev ACC: 73.646
+01/08/2021 01:40:44 [new test scores saved.]
+01/08/2021 01:40:49 At epoch 30
+01/08/2021 01:41:28 Task [ 1] updates[ 19000] train loss[0.10650] remaining[0:00:39]
+01/08/2021 01:42:08 Task rte -- epoch 30 -- Dev ACC: 74.368
+01/08/2021 01:42:19 [new test scores saved.]
+01/08/2021 01:42:24 At epoch 31
+01/08/2021 01:42:47 Task [ 1] updates[ 19500] train loss[0.10377] remaining[0:00:53]
+01/08/2021 01:43:43 Task rte -- epoch 31 -- Dev ACC: 73.646
+01/08/2021 01:43:54 [new test scores saved.]
+01/08/2021 01:43:59 At epoch 32
+01/08/2021 01:44:07 Task [ 1] updates[ 20000] train loss[0.10118] remaining[0:01:09]
+01/08/2021 01:45:10 Task [ 1] updates[ 20500] train loss[0.09878] remaining[0:00:07]
+01/08/2021 01:45:19 Task rte -- epoch 32 -- Dev ACC: 74.729
+01/08/2021 01:45:30 [new test scores saved.]
+01/08/2021 01:45:35 At epoch 33
+01/08/2021 01:46:30 Task [ 1] updates[ 21000] train loss[0.09649] remaining[0:00:22]
+01/08/2021 01:46:55 Task rte -- epoch 33 -- Dev ACC: 74.729
+01/08/2021 01:47:06 [new test scores saved.]
+01/08/2021 01:47:10 At epoch 34
+01/08/2021 01:47:50 Task [ 1] updates[ 21500] train loss[0.09424] remaining[0:00:37]
+01/08/2021 01:48:30 Task rte -- epoch 34 -- Dev ACC: 74.368
+01/08/2021 01:48:41 [new test scores saved.]
+01/08/2021 01:48:47 At epoch 35
+01/08/2021 01:49:11 Task [ 1] updates[ 22000] train loss[0.09210] remaining[0:00:54]
+01/08/2021 01:50:07 Task rte -- epoch 35 -- Dev ACC: 74.368
+01/08/2021 01:50:18 [new test scores saved.]
+01/08/2021 01:50:24 At epoch 36
+01/08/2021 01:50:33 Task [ 1] updates[ 22500] train loss[0.09005] remaining[0:01:09]
+01/08/2021 01:51:36 Task [ 1] updates[ 23000] train loss[0.08831] remaining[0:00:06]
+01/08/2021 01:51:44 Task rte -- epoch 36 -- Dev ACC: 74.368
+01/08/2021 01:51:55 [new test scores saved.]
+01/08/2021 01:52:00 At epoch 37
+01/08/2021 01:52:58 Task [ 1] updates[ 23500] train loss[0.08644] remaining[0:00:22]
+01/08/2021 01:53:20 Task rte -- epoch 37 -- Dev ACC: 74.368
+01/08/2021 01:53:31 [new test scores saved.]
+01/08/2021 01:53:37 At epoch 38
+01/08/2021 01:54:18 Task [ 1] updates[ 24000] train loss[0.08477] remaining[0:00:37]
+01/08/2021 01:54:59 Task rte -- epoch 38 -- Dev ACC: 74.007
+01/08/2021 01:55:10 [new test scores saved.]
+01/08/2021 01:55:15 At epoch 39
+01/08/2021 01:55:42 Task [ 1] updates[ 24500] train loss[0.08304] remaining[0:00:54]
+01/08/2021 01:56:37 Task rte -- epoch 39 -- Dev ACC: 74.368
+01/08/2021 01:56:48 [new test scores saved.]

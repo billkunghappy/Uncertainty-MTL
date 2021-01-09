@@ -1,0 +1,4 @@
+for file in ./*.log
+do
+      echo "$file"
+done

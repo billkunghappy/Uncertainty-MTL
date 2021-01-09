@@ -1,0 +1,649 @@
+01/05/2021 04:49:36 1
+01/05/2021 04:49:36 Launching the MT-DNN training
+01/05/2021 04:49:36 Loading data/canonical_data/bert_base_uncased_lower/qnli_train.json as task 0
+01/05/2021 04:49:39 ####################
+01/05/2021 04:49:39 {'log_file': 'checkpoints/2021-01-05T0449_bert-base-uncased_qnli/log.log', 'tensorboard': False, 'tensorboard_logdir': 'tensorboard_logdir', 'init_checkpoint': 'bert-base-uncased', 'data_dir': 'data/canonical_data/bert_base_uncased_lower', 'data_sort_on': False, 'name': 'farmer', 'task_def': 'experiments/glue/glue_task_def.yml', 'train_datasets': ['qnli'], 'test_datasets': ['qnli'], 'glue_format_on': False, 'mkd_opt': 0, 'do_padding': False, 'update_bert_opt': 0, 'multi_gpu_on': True, 'mem_cum_type': 'simple', 'answer_num_turn': 5, 'answer_mem_drop_p': 0.1, 'answer_att_hidden_size': 128, 'answer_att_type': 'bilinear', 'answer_rnn_type': 'gru', 'answer_sum_att_type': 'bilinear', 'answer_merge_opt': 1, 'answer_mem_type': 1, 'max_answer_len': 10, 'answer_dropout_p': 0.1, 'answer_weight_norm_on': False, 'dump_state_on': False, 'answer_opt': 1, 'mtl_opt': 0, 'ratio': 0, 'mix_opt': 0, 'max_seq_len': 512, 'init_ratio': 1, 'encoder_type': <EncoderModelType.BERT: 1>, 'num_hidden_layers': -1, 'bert_model_type': 'bert-base-uncased', 'do_lower_case': False, 'masked_lm_prob': 0.15, 'short_seq_prob': 0.2, 'max_predictions_per_seq': 128, 'bin_on': False, 'bin_size': 64, 'bin_grow_ratio': 0.5, 'cuda': True, 'log_per_updates': 500, 'save_per_updates': 10000, 'save_per_updates_on': False, 'epochs': 20, 'batch_size': 16, 'batch_size_eval': 8, 'optimizer': 'adamax', 'grad_clipping': 0.0, 'global_grad_clipping': 1.0, 'weight_decay': 0, 'learning_rate': 5e-05, 'momentum': 0, 'warmup': 0.1, 'warmup_schedule': 'warmup_linear', 'adam_eps': 1e-06, 'vb_dropout': True, 'dropout_p': 0.1, 'dropout_w': 0.0, 'bert_dropout_p': 0.1, 'model_ckpt': 'checkpoints/model_0.pt', 'resume': False, 'have_lr_scheduler': True, 'multi_step_lr': '10,20,30', 'lr_gamma': 0.5, 'scheduler_type': 'ms', 'output_dir': 'checkpoints/2021-01-05T0449_bert-base-uncased_qnli', 'seed': 2018, 'grad_accumulation_step': 1, 'fp16': False, 'fp16_opt_level': 'O1', 'adv_train': False, 'adv_opt': 0, 'adv_norm_level': 0, 'adv_p_norm': 'inf', 'adv_alpha': 1, 'adv_k': 1, 'adv_step_size': 0.001, 'adv_noise_var': 1e-05, 'adv_epsilon': 1e-06, 'loss_pred': True, 'collect_uncertainty': None, 'collect_topk': 0.1, 'load_ranked_data': None, 'mc_dropout': 0, 'finetune': False, 'encode_mode': False, 'task_def_list': [{'self': '{}', 'label_vocab': '<data_utils.vocab.Vocabulary object at 0x7f638fd68eb0>', 'n_class': '2', 'data_type': '<DataFormat.PremiseAndOneHypothesis: 2>', 'task_type': '<TaskType.Classification: 1>', 'metric_meta': '(<Metric.ACC: 0>,)', 'split_names': "['train', 'dev', 'test']", 'enable_san': 'False', 'dropout_p': 'None', 'loss': '<LossCriterion.CeCriterion: 0>', 'kd_loss': '<LossCriterion.MseCriterion: 1>', 'adv_loss': '<LossCriterion.SymKlCriterion: 7>', '__class__': "<class 'experiments.exp_def.TaskDef'>"}]}
+01/05/2021 04:49:39 ####################
+01/05/2021 04:49:39 ############# Gradient Accumulation Info #############
+01/05/2021 04:49:39 number of step: 135560
+01/05/2021 04:49:39 number of grad grad_accumulation step: 1
+01/05/2021 04:49:39 adjusted number of step: 135560
+01/05/2021 04:49:39 ############# Gradient Accumulation Info #############
+01/05/2021 04:49:56 
+############# Model Arch of MT-DNN #############
+SANBertNetwork(
+  (dropout_list): ModuleList(
+    (0): DropoutWrapper()
+  )
+  (bert): BertModel(
+    (embeddings): BertEmbeddings(
+      (word_embeddings): Embedding(30522, 768, padding_idx=0)
+      (position_embeddings): Embedding(512, 768)
+      (token_type_embeddings): Embedding(2, 768)
+      (LayerNorm): LayerNorm((768,), eps=1e-12, elementwise_affine=True)
+      (dropout): Dropout(p=0.1, inplace=False)
+    )
+    (encoder): BertEncoder(
+      (layer): ModuleList(
+        (0): BertLayer(
+          (attention): BertAttention(
+            (self): BertSelfAttention(
+              (query): Linear(in_features=768, out_features=768, bias=True)
+              (key): Linear(in_features=768, out_features=768, bias=True)
+              (value): Linear(in_features=768, out_features=768, bias=True)
+              (dropout): Dropout(p=0.1, inplace=False)
+            )
+            (output): BertSelfOutput(
+              (dense): Linear(in_features=768, out_features=768, bias=True)
+              (LayerNorm): LayerNorm((768,), eps=1e-12, elementwise_affine=True)
+              (dropout): Dropout(p=0.1, inplace=False)
+            )
+          )
+          (intermediate): BertIntermediate(
+            (dense): Linear(in_features=768, out_features=3072, bias=True)
+          )
+          (output): BertOutput(
+            (dense): Linear(in_features=3072, out_features=768, bias=True)
+            (LayerNorm): LayerNorm((768,), eps=1e-12, elementwise_affine=True)
+            (dropout): Dropout(p=0.1, inplace=False)
+          )
+        )
+        (1): BertLayer(
+          (attention): BertAttention(
+            (self): BertSelfAttention(
+              (query): Linear(in_features=768, out_features=768, bias=True)
+              (key): Linear(in_features=768, out_features=768, bias=True)
+              (value): Linear(in_features=768, out_features=768, bias=True)
+              (dropout): Dropout(p=0.1, inplace=False)
+            )
+            (output): BertSelfOutput(
+              (dense): Linear(in_features=768, out_features=768, bias=True)
+              (LayerNorm): LayerNorm((768,), eps=1e-12, elementwise_affine=True)
+              (dropout): Dropout(p=0.1, inplace=False)
+            )
+          )
+          (intermediate): BertIntermediate(
+            (dense): Linear(in_features=768, out_features=3072, bias=True)
+          )
+          (output): BertOutput(
+            (dense): Linear(in_features=3072, out_features=768, bias=True)
+            (LayerNorm): LayerNorm((768,), eps=1e-12, elementwise_affine=True)
+            (dropout): Dropout(p=0.1, inplace=False)
+          )
+        )
+        (2): BertLayer(
+          (attention): BertAttention(
+            (self): BertSelfAttention(
+              (query): Linear(in_features=768, out_features=768, bias=True)
+              (key): Linear(in_features=768, out_features=768, bias=True)
+              (value): Linear(in_features=768, out_features=768, bias=True)
+              (dropout): Dropout(p=0.1, inplace=False)
+            )
+            (output): BertSelfOutput(
+              (dense): Linear(in_features=768, out_features=768, bias=True)
+              (LayerNorm): LayerNorm((768,), eps=1e-12, elementwise_affine=True)
+              (dropout): Dropout(p=0.1, inplace=False)
+            )
+          )
+          (intermediate): BertIntermediate(
+            (dense): Linear(in_features=768, out_features=3072, bias=True)
+          )
+          (output): BertOutput(
+            (dense): Linear(in_features=3072, out_features=768, bias=True)
+            (LayerNorm): LayerNorm((768,), eps=1e-12, elementwise_affine=True)
+            (dropout): Dropout(p=0.1, inplace=False)
+          )
+        )
+        (3): BertLayer(
+          (attention): BertAttention(
+            (self): BertSelfAttention(
+              (query): Linear(in_features=768, out_features=768, bias=True)
+              (key): Linear(in_features=768, out_features=768, bias=True)
+              (value): Linear(in_features=768, out_features=768, bias=True)
+              (dropout): Dropout(p=0.1, inplace=False)
+            )
+            (output): BertSelfOutput(
+              (dense): Linear(in_features=768, out_features=768, bias=True)
+              (LayerNorm): LayerNorm((768,), eps=1e-12, elementwise_affine=True)
+              (dropout): Dropout(p=0.1, inplace=False)
+            )
+          )
+          (intermediate): BertIntermediate(
+            (dense): Linear(in_features=768, out_features=3072, bias=True)
+          )
+          (output): BertOutput(
+            (dense): Linear(in_features=3072, out_features=768, bias=True)
+            (LayerNorm): LayerNorm((768,), eps=1e-12, elementwise_affine=True)
+            (dropout): Dropout(p=0.1, inplace=False)
+          )
+        )
+        (4): BertLayer(
+          (attention): BertAttention(
+            (self): BertSelfAttention(
+              (query): Linear(in_features=768, out_features=768, bias=True)
+              (key): Linear(in_features=768, out_features=768, bias=True)
+              (value): Linear(in_features=768, out_features=768, bias=True)
+              (dropout): Dropout(p=0.1, inplace=False)
+            )
+            (output): BertSelfOutput(
+              (dense): Linear(in_features=768, out_features=768, bias=True)
+              (LayerNorm): LayerNorm((768,), eps=1e-12, elementwise_affine=True)
+              (dropout): Dropout(p=0.1, inplace=False)
+            )
+          )
+          (intermediate): BertIntermediate(
+            (dense): Linear(in_features=768, out_features=3072, bias=True)
+          )
+          (output): BertOutput(
+            (dense): Linear(in_features=3072, out_features=768, bias=True)
+            (LayerNorm): LayerNorm((768,), eps=1e-12, elementwise_affine=True)
+            (dropout): Dropout(p=0.1, inplace=False)
+          )
+        )
+        (5): BertLayer(
+          (attention): BertAttention(
+            (self): BertSelfAttention(
+              (query): Linear(in_features=768, out_features=768, bias=True)
+              (key): Linear(in_features=768, out_features=768, bias=True)
+              (value): Linear(in_features=768, out_features=768, bias=True)
+              (dropout): Dropout(p=0.1, inplace=False)
+            )
+            (output): BertSelfOutput(
+              (dense): Linear(in_features=768, out_features=768, bias=True)
+              (LayerNorm): LayerNorm((768,), eps=1e-12, elementwise_affine=True)
+              (dropout): Dropout(p=0.1, inplace=False)
+            )
+          )
+          (intermediate): BertIntermediate(
+            (dense): Linear(in_features=768, out_features=3072, bias=True)
+          )
+          (output): BertOutput(
+            (dense): Linear(in_features=3072, out_features=768, bias=True)
+            (LayerNorm): LayerNorm((768,), eps=1e-12, elementwise_affine=True)
+            (dropout): Dropout(p=0.1, inplace=False)
+          )
+        )
+        (6): BertLayer(
+          (attention): BertAttention(
+            (self): BertSelfAttention(
+              (query): Linear(in_features=768, out_features=768, bias=True)
+              (key): Linear(in_features=768, out_features=768, bias=True)
+              (value): Linear(in_features=768, out_features=768, bias=True)
+              (dropout): Dropout(p=0.1, inplace=False)
+            )
+            (output): BertSelfOutput(
+              (dense): Linear(in_features=768, out_features=768, bias=True)
+              (LayerNorm): LayerNorm((768,), eps=1e-12, elementwise_affine=True)
+              (dropout): Dropout(p=0.1, inplace=False)
+            )
+          )
+          (intermediate): BertIntermediate(
+            (dense): Linear(in_features=768, out_features=3072, bias=True)
+          )
+          (output): BertOutput(
+            (dense): Linear(in_features=3072, out_features=768, bias=True)
+            (LayerNorm): LayerNorm((768,), eps=1e-12, elementwise_affine=True)
+            (dropout): Dropout(p=0.1, inplace=False)
+          )
+        )
+        (7): BertLayer(
+          (attention): BertAttention(
+            (self): BertSelfAttention(
+              (query): Linear(in_features=768, out_features=768, bias=True)
+              (key): Linear(in_features=768, out_features=768, bias=True)
+              (value): Linear(in_features=768, out_features=768, bias=True)
+              (dropout): Dropout(p=0.1, inplace=False)
+            )
+            (output): BertSelfOutput(
+              (dense): Linear(in_features=768, out_features=768, bias=True)
+              (LayerNorm): LayerNorm((768,), eps=1e-12, elementwise_affine=True)
+              (dropout): Dropout(p=0.1, inplace=False)
+            )
+          )
+          (intermediate): BertIntermediate(
+            (dense): Linear(in_features=768, out_features=3072, bias=True)
+          )
+          (output): BertOutput(
+            (dense): Linear(in_features=3072, out_features=768, bias=True)
+            (LayerNorm): LayerNorm((768,), eps=1e-12, elementwise_affine=True)
+            (dropout): Dropout(p=0.1, inplace=False)
+          )
+        )
+        (8): BertLayer(
+          (attention): BertAttention(
+            (self): BertSelfAttention(
+              (query): Linear(in_features=768, out_features=768, bias=True)
+              (key): Linear(in_features=768, out_features=768, bias=True)
+              (value): Linear(in_features=768, out_features=768, bias=True)
+              (dropout): Dropout(p=0.1, inplace=False)
+            )
+            (output): BertSelfOutput(
+              (dense): Linear(in_features=768, out_features=768, bias=True)
+              (LayerNorm): LayerNorm((768,), eps=1e-12, elementwise_affine=True)
+              (dropout): Dropout(p=0.1, inplace=False)
+            )
+          )
+          (intermediate): BertIntermediate(
+            (dense): Linear(in_features=768, out_features=3072, bias=True)
+          )
+          (output): BertOutput(
+            (dense): Linear(in_features=3072, out_features=768, bias=True)
+            (LayerNorm): LayerNorm((768,), eps=1e-12, elementwise_affine=True)
+            (dropout): Dropout(p=0.1, inplace=False)
+          )
+        )
+        (9): BertLayer(
+          (attention): BertAttention(
+            (self): BertSelfAttention(
+              (query): Linear(in_features=768, out_features=768, bias=True)
+              (key): Linear(in_features=768, out_features=768, bias=True)
+              (value): Linear(in_features=768, out_features=768, bias=True)
+              (dropout): Dropout(p=0.1, inplace=False)
+            )
+            (output): BertSelfOutput(
+              (dense): Linear(in_features=768, out_features=768, bias=True)
+              (LayerNorm): LayerNorm((768,), eps=1e-12, elementwise_affine=True)
+              (dropout): Dropout(p=0.1, inplace=False)
+            )
+          )
+          (intermediate): BertIntermediate(
+            (dense): Linear(in_features=768, out_features=3072, bias=True)
+          )
+          (output): BertOutput(
+            (dense): Linear(in_features=3072, out_features=768, bias=True)
+            (LayerNorm): LayerNorm((768,), eps=1e-12, elementwise_affine=True)
+            (dropout): Dropout(p=0.1, inplace=False)
+          )
+        )
+        (10): BertLayer(
+          (attention): BertAttention(
+            (self): BertSelfAttention(
+              (query): Linear(in_features=768, out_features=768, bias=True)
+              (key): Linear(in_features=768, out_features=768, bias=True)
+              (value): Linear(in_features=768, out_features=768, bias=True)
+              (dropout): Dropout(p=0.1, inplace=False)
+            )
+            (output): BertSelfOutput(
+              (dense): Linear(in_features=768, out_features=768, bias=True)
+              (LayerNorm): LayerNorm((768,), eps=1e-12, elementwise_affine=True)
+              (dropout): Dropout(p=0.1, inplace=False)
+            )
+          )
+          (intermediate): BertIntermediate(
+            (dense): Linear(in_features=768, out_features=3072, bias=True)
+          )
+          (output): BertOutput(
+            (dense): Linear(in_features=3072, out_features=768, bias=True)
+            (LayerNorm): LayerNorm((768,), eps=1e-12, elementwise_affine=True)
+            (dropout): Dropout(p=0.1, inplace=False)
+          )
+        )
+        (11): BertLayer(
+          (attention): BertAttention(
+            (self): BertSelfAttention(
+              (query): Linear(in_features=768, out_features=768, bias=True)
+              (key): Linear(in_features=768, out_features=768, bias=True)
+              (value): Linear(in_features=768, out_features=768, bias=True)
+              (dropout): Dropout(p=0.1, inplace=False)
+            )
+            (output): BertSelfOutput(
+              (dense): Linear(in_features=768, out_features=768, bias=True)
+              (LayerNorm): LayerNorm((768,), eps=1e-12, elementwise_affine=True)
+              (dropout): Dropout(p=0.1, inplace=False)
+            )
+          )
+          (intermediate): BertIntermediate(
+            (dense): Linear(in_features=768, out_features=3072, bias=True)
+          )
+          (output): BertOutput(
+            (dense): Linear(in_features=3072, out_features=768, bias=True)
+            (LayerNorm): LayerNorm((768,), eps=1e-12, elementwise_affine=True)
+            (dropout): Dropout(p=0.1, inplace=False)
+          )
+        )
+      )
+    )
+    (pooler): BertPooler(
+      (dense): Linear(in_features=768, out_features=768, bias=True)
+      (activation): Tanh()
+    )
+  )
+  (loss_pred_fc): Linear(in_features=768, out_features=1, bias=True)
+  (scoring_list): ModuleList(
+    (0): Linear(in_features=768, out_features=2, bias=True)
+  )
+)
+
+01/05/2021 04:49:56 Total number of params: 109484547
+01/05/2021 04:49:56 At epoch 0
+01/05/2021 04:49:57 Task [ 0] updates[     1] train loss[1.62892] remaining[2:26:34]
+01/05/2021 04:51:26 Task [ 0] updates[   500] train loss[1.73836] remaining[0:18:58]
+01/05/2021 04:52:55 Task [ 0] updates[  1000] train loss[1.70034] remaining[0:17:19]
+01/05/2021 04:54:24 Task [ 0] updates[  1500] train loss[1.63134] remaining[0:15:45]
+01/05/2021 04:55:36 Task [ 0] updates[  2000] train loss[1.56005] remaining[0:13:32]
+01/05/2021 04:56:38 Task [ 0] updates[  2500] train loss[1.49917] remaining[0:11:28]
+01/05/2021 04:57:39 Task [ 0] updates[  3000] train loss[1.43357] remaining[0:09:43]
+01/05/2021 04:58:38 Task [ 0] updates[  3500] train loss[1.37372] remaining[0:08:08]
+01/05/2021 04:59:35 Task [ 0] updates[  4000] train loss[1.32353] remaining[0:06:42]
+01/05/2021 05:00:33 Task [ 0] updates[  4500] train loss[1.27471] remaining[0:05:22]
+01/05/2021 05:01:30 Task [ 0] updates[  5000] train loss[1.23676] remaining[0:04:06]
+01/05/2021 05:02:28 Task [ 0] updates[  5500] train loss[1.20278] remaining[0:02:54]
+01/05/2021 05:03:25 Task [ 0] updates[  6000] train loss[1.17207] remaining[0:01:44]
+01/05/2021 05:04:22 Task [ 0] updates[  6500] train loss[1.14547] remaining[0:00:37]
+01/05/2021 05:05:04 Task qnli -- epoch 0 -- Dev ACC: 79.187
+01/05/2021 05:05:15 [new test scores saved.]
+01/05/2021 05:05:19 At epoch 1
+01/05/2021 05:05:46 Task [ 0] updates[  7000] train loss[1.12438] remaining[0:13:17]
+01/05/2021 05:06:44 Task [ 0] updates[  7500] train loss[1.10343] remaining[0:11:50]
+01/05/2021 05:07:42 Task [ 0] updates[  8000] train loss[1.08618] remaining[0:10:51]
+01/05/2021 05:08:40 Task [ 0] updates[  8500] train loss[1.06809] remaining[0:09:51]
+01/05/2021 05:09:38 Task [ 0] updates[  9000] train loss[1.05178] remaining[0:08:51]
+01/05/2021 05:10:37 Task [ 0] updates[  9500] train loss[1.03687] remaining[0:07:53]
+01/05/2021 05:11:35 Task [ 0] updates[ 10000] train loss[1.02128] remaining[0:06:55]
+01/05/2021 05:12:35 Task [ 0] updates[ 10500] train loss[1.00866] remaining[0:05:57]
+01/05/2021 05:13:43 Task [ 0] updates[ 11000] train loss[0.99600] remaining[0:05:04]
+01/05/2021 05:14:52 Task [ 0] updates[ 11500] train loss[0.98458] remaining[0:04:09]
+01/05/2021 05:15:50 Task [ 0] updates[ 12000] train loss[0.97195] remaining[0:03:07]
+01/05/2021 05:16:48 Task [ 0] updates[ 12500] train loss[0.96035] remaining[0:02:07]
+01/05/2021 05:17:52 Task [ 0] updates[ 13000] train loss[0.95299] remaining[0:01:07]
+01/05/2021 05:19:02 Task [ 0] updates[ 13500] train loss[0.94398] remaining[0:00:06]
+01/05/2021 05:19:23 Task qnli -- epoch 1 -- Dev ACC: 80.775
+01/05/2021 05:19:35 [new test scores saved.]
+01/05/2021 05:19:40 At epoch 2
+01/05/2021 05:20:39 Task [ 0] updates[ 14000] train loss[0.93682] remaining[0:14:01]
+01/05/2021 05:21:36 Task [ 0] updates[ 14500] train loss[0.92707] remaining[0:11:59]
+01/05/2021 05:22:34 Task [ 0] updates[ 15000] train loss[0.91907] remaining[0:10:43]
+01/05/2021 05:23:31 Task [ 0] updates[ 15500] train loss[0.91145] remaining[0:09:34]
+01/05/2021 05:24:28 Task [ 0] updates[ 16000] train loss[0.90271] remaining[0:08:30]
+01/05/2021 05:25:26 Task [ 0] updates[ 16500] train loss[0.89424] remaining[0:07:30]
+01/05/2021 05:26:25 Task [ 0] updates[ 17000] train loss[0.88556] remaining[0:06:32]
+01/05/2021 05:27:23 Task [ 0] updates[ 17500] train loss[0.87828] remaining[0:05:32]
+01/05/2021 05:28:25 Task [ 0] updates[ 18000] train loss[0.87201] remaining[0:04:36]
+01/05/2021 05:29:35 Task [ 0] updates[ 18500] train loss[0.86455] remaining[0:03:41]
+01/05/2021 05:30:39 Task [ 0] updates[ 19000] train loss[0.85814] remaining[0:02:41]
+01/05/2021 05:31:38 Task [ 0] updates[ 19500] train loss[0.85204] remaining[0:01:40]
+01/05/2021 05:32:36 Task [ 0] updates[ 20000] train loss[0.84508] remaining[0:00:40]
+01/05/2021 05:33:24 Task qnli -- epoch 2 -- Dev ACC: 86.357
+01/05/2021 05:33:35 [new test scores saved.]
+01/05/2021 05:33:39 At epoch 3
+01/05/2021 05:33:59 Task [ 0] updates[ 20500] train loss[0.83967] remaining[0:12:51]
+01/05/2021 05:34:57 Task [ 0] updates[ 21000] train loss[0.83368] remaining[0:11:53]
+01/05/2021 05:35:56 Task [ 0] updates[ 21500] train loss[0.82728] remaining[0:10:54]
+01/05/2021 05:36:54 Task [ 0] updates[ 22000] train loss[0.82135] remaining[0:09:56]
+01/05/2021 05:37:52 Task [ 0] updates[ 22500] train loss[0.81547] remaining[0:08:58]
+01/05/2021 05:38:50 Task [ 0] updates[ 23000] train loss[0.80989] remaining[0:07:58]
+01/05/2021 05:39:48 Task [ 0] updates[ 23500] train loss[0.80453] remaining[0:07:00]
+01/05/2021 05:40:46 Task [ 0] updates[ 24000] train loss[0.80008] remaining[0:06:02]
+01/05/2021 05:41:43 Task [ 0] updates[ 24500] train loss[0.79434] remaining[0:05:03]
+01/05/2021 05:42:40 Task [ 0] updates[ 25000] train loss[0.78917] remaining[0:04:04]
+01/05/2021 05:43:37 Task [ 0] updates[ 25500] train loss[0.78397] remaining[0:03:06]
+01/05/2021 05:44:36 Task [ 0] updates[ 26000] train loss[0.77848] remaining[0:02:08]
+01/05/2021 05:45:39 Task [ 0] updates[ 26500] train loss[0.77345] remaining[0:01:11]
+01/05/2021 05:46:37 Task [ 0] updates[ 27000] train loss[0.76910] remaining[0:00:13]
+01/05/2021 05:47:00 Task qnli -- epoch 3 -- Dev ACC: 86.689
+01/05/2021 05:47:11 [new test scores saved.]
+01/05/2021 05:47:15 At epoch 4
+01/05/2021 05:48:01 Task [ 0] updates[ 27500] train loss[0.76494] remaining[0:12:22]
+01/05/2021 05:48:59 Task [ 0] updates[ 28000] train loss[0.76030] remaining[0:11:28]
+01/05/2021 05:49:58 Task [ 0] updates[ 28500] train loss[0.75634] remaining[0:10:30]
+01/05/2021 05:50:56 Task [ 0] updates[ 29000] train loss[0.75153] remaining[0:09:31]
+01/05/2021 05:51:55 Task [ 0] updates[ 29500] train loss[0.74724] remaining[0:08:33]
+01/05/2021 05:52:53 Task [ 0] updates[ 30000] train loss[0.74338] remaining[0:07:34]
+01/05/2021 05:53:51 Task [ 0] updates[ 30500] train loss[0.73916] remaining[0:06:35]
+01/05/2021 05:54:48 Task [ 0] updates[ 31000] train loss[0.73537] remaining[0:05:36]
+01/05/2021 05:55:46 Task [ 0] updates[ 31500] train loss[0.73094] remaining[0:04:37]
+01/05/2021 05:56:43 Task [ 0] updates[ 32000] train loss[0.72631] remaining[0:03:39]
+01/05/2021 05:57:39 Task [ 0] updates[ 32500] train loss[0.72270] remaining[0:02:40]
+01/05/2021 05:58:37 Task [ 0] updates[ 33000] train loss[0.71872] remaining[0:01:42]
+01/05/2021 05:59:34 Task [ 0] updates[ 33500] train loss[0.71516] remaining[0:00:45]
+01/05/2021 06:00:28 Task qnli -- epoch 4 -- Dev ACC: 87.055
+01/05/2021 06:00:39 [new test scores saved.]
+01/05/2021 06:00:43 At epoch 5
+01/05/2021 06:00:56 Task [ 0] updates[ 34000] train loss[0.71123] remaining[0:13:06]
+01/05/2021 06:01:54 Task [ 0] updates[ 34500] train loss[0.70787] remaining[0:11:59]
+01/05/2021 06:02:54 Task [ 0] updates[ 35000] train loss[0.70437] remaining[0:11:05]
+01/05/2021 06:03:50 Task [ 0] updates[ 35500] train loss[0.70072] remaining[0:10:01]
+01/05/2021 06:04:48 Task [ 0] updates[ 36000] train loss[0.69703] remaining[0:09:02]
+01/05/2021 06:05:45 Task [ 0] updates[ 36500] train loss[0.69363] remaining[0:08:02]
+01/05/2021 06:06:44 Task [ 0] updates[ 37000] train loss[0.69071] remaining[0:07:05]
+01/05/2021 06:07:42 Task [ 0] updates[ 37500] train loss[0.68766] remaining[0:06:07]
+01/05/2021 06:08:39 Task [ 0] updates[ 38000] train loss[0.68396] remaining[0:05:09]
+01/05/2021 06:09:37 Task [ 0] updates[ 38500] train loss[0.68060] remaining[0:04:11]
+01/05/2021 06:10:34 Task [ 0] updates[ 39000] train loss[0.67720] remaining[0:03:12]
+01/05/2021 06:11:32 Task [ 0] updates[ 39500] train loss[0.67372] remaining[0:02:15]
+01/05/2021 06:12:29 Task [ 0] updates[ 40000] train loss[0.67066] remaining[0:01:17]
+01/05/2021 06:13:26 Task [ 0] updates[ 40500] train loss[0.66766] remaining[0:00:19]
+01/05/2021 06:13:55 Task qnli -- epoch 5 -- Dev ACC: 87.230
+01/05/2021 06:14:05 [new test scores saved.]
+01/05/2021 06:14:10 At epoch 6
+01/05/2021 06:14:48 Task [ 0] updates[ 41000] train loss[0.66482] remaining[0:12:16]
+01/05/2021 06:15:46 Task [ 0] updates[ 41500] train loss[0.66145] remaining[0:11:25]
+01/05/2021 06:16:44 Task [ 0] updates[ 42000] train loss[0.65869] remaining[0:10:30]
+01/05/2021 06:17:41 Task [ 0] updates[ 42500] train loss[0.65535] remaining[0:09:31]
+01/05/2021 06:18:39 Task [ 0] updates[ 43000] train loss[0.65220] remaining[0:08:33]
+01/05/2021 06:19:37 Task [ 0] updates[ 43500] train loss[0.64931] remaining[0:07:36]
+01/05/2021 06:20:37 Task [ 0] updates[ 44000] train loss[0.64691] remaining[0:06:40]
+01/05/2021 06:21:37 Task [ 0] updates[ 44500] train loss[0.64423] remaining[0:05:43]
+01/05/2021 06:22:36 Task [ 0] updates[ 45000] train loss[0.64133] remaining[0:04:45]
+01/05/2021 06:23:36 Task [ 0] updates[ 45500] train loss[0.63836] remaining[0:03:48]
+01/05/2021 06:24:35 Task [ 0] updates[ 46000] train loss[0.63593] remaining[0:02:49]
+01/05/2021 06:25:34 Task [ 0] updates[ 46500] train loss[0.63299] remaining[0:01:50]
+01/05/2021 06:26:32 Task [ 0] updates[ 47000] train loss[0.63044] remaining[0:00:52]
+01/05/2021 06:27:33 Task qnli -- epoch 6 -- Dev ACC: 87.910
+01/05/2021 06:27:44 [new test scores saved.]
+01/05/2021 06:27:48 At epoch 7
+01/05/2021 06:27:54 Task [ 0] updates[ 47500] train loss[0.62819] remaining[0:12:49]
+01/05/2021 06:28:56 Task [ 0] updates[ 48000] train loss[0.62604] remaining[0:12:42]
+01/05/2021 06:30:06 Task [ 0] updates[ 48500] train loss[0.62363] remaining[0:12:30]
+01/05/2021 06:31:16 Task [ 0] updates[ 49000] train loss[0.62132] remaining[0:11:39]
+01/05/2021 06:32:26 Task [ 0] updates[ 49500] train loss[0.61889] remaining[0:10:38]
+01/05/2021 06:33:35 Task [ 0] updates[ 50000] train loss[0.61659] remaining[0:09:34]
+01/05/2021 06:34:46 Task [ 0] updates[ 50500] train loss[0.61423] remaining[0:08:29]
+01/05/2021 06:35:57 Task [ 0] updates[ 51000] train loss[0.61209] remaining[0:07:23]
+01/05/2021 06:37:07 Task [ 0] updates[ 51500] train loss[0.60983] remaining[0:06:15]
+01/05/2021 06:38:17 Task [ 0] updates[ 52000] train loss[0.60733] remaining[0:05:07]
+01/05/2021 06:39:28 Task [ 0] updates[ 52500] train loss[0.60513] remaining[0:03:58]
+01/05/2021 06:40:35 Task [ 0] updates[ 53000] train loss[0.60287] remaining[0:02:48]
+01/05/2021 06:41:32 Task [ 0] updates[ 53500] train loss[0.60033] remaining[0:01:38]
+01/05/2021 06:42:29 Task [ 0] updates[ 54000] train loss[0.59813] remaining[0:00:30]
+01/05/2021 06:43:04 Task qnli -- epoch 7 -- Dev ACC: 87.962
+01/05/2021 06:43:15 [new test scores saved.]
+01/05/2021 06:43:19 At epoch 8
+01/05/2021 06:43:51 Task [ 0] updates[ 54500] train loss[0.59624] remaining[0:12:21]
+01/05/2021 06:44:48 Task [ 0] updates[ 55000] train loss[0.59397] remaining[0:11:25]
+01/05/2021 06:45:45 Task [ 0] updates[ 55500] train loss[0.59205] remaining[0:10:30]
+01/05/2021 06:46:42 Task [ 0] updates[ 56000] train loss[0.58980] remaining[0:09:32]
+01/05/2021 06:47:43 Task [ 0] updates[ 56500] train loss[0.58794] remaining[0:08:41]
+01/05/2021 06:48:53 Task [ 0] updates[ 57000] train loss[0.58620] remaining[0:08:01]
+01/05/2021 06:50:04 Task [ 0] updates[ 57500] train loss[0.58460] remaining[0:07:13]
+01/05/2021 06:51:13 Task [ 0] updates[ 58000] train loss[0.58297] remaining[0:06:17]
+01/05/2021 06:52:23 Task [ 0] updates[ 58500] train loss[0.58068] remaining[0:05:18]
+01/05/2021 06:53:28 Task [ 0] updates[ 59000] train loss[0.57874] remaining[0:04:15]
+01/05/2021 06:54:27 Task [ 0] updates[ 59500] train loss[0.57669] remaining[0:03:10]
+01/05/2021 06:55:26 Task [ 0] updates[ 60000] train loss[0.57450] remaining[0:02:06]
+01/05/2021 06:56:24 Task [ 0] updates[ 60500] train loss[0.57275] remaining[0:01:02]
+01/05/2021 06:57:18 Task [ 0] updates[ 61000] train loss[0.57083] remaining[0:00:00]
+01/05/2021 06:57:29 Task qnli -- epoch 8 -- Dev ACC: 87.317
+01/05/2021 06:57:39 [new test scores saved.]
+01/05/2021 06:57:44 At epoch 9
+01/05/2021 06:58:40 Task [ 0] updates[ 61500] train loss[0.56929] remaining[0:11:52]
+01/05/2021 06:59:37 Task [ 0] updates[ 62000] train loss[0.56731] remaining[0:10:55]
+01/05/2021 07:00:34 Task [ 0] updates[ 62500] train loss[0.56566] remaining[0:10:00]
+01/05/2021 07:01:31 Task [ 0] updates[ 63000] train loss[0.56367] remaining[0:09:03]
+01/05/2021 07:02:27 Task [ 0] updates[ 63500] train loss[0.56204] remaining[0:08:06]
+01/05/2021 07:03:25 Task [ 0] updates[ 64000] train loss[0.56052] remaining[0:07:10]
+01/05/2021 07:04:23 Task [ 0] updates[ 64500] train loss[0.55887] remaining[0:06:14]
+01/05/2021 07:05:20 Task [ 0] updates[ 65000] train loss[0.55731] remaining[0:05:17]
+01/05/2021 07:06:17 Task [ 0] updates[ 65500] train loss[0.55544] remaining[0:04:20]
+01/05/2021 07:07:14 Task [ 0] updates[ 66000] train loss[0.55391] remaining[0:03:23]
+01/05/2021 07:08:12 Task [ 0] updates[ 66500] train loss[0.55223] remaining[0:02:26]
+01/05/2021 07:09:10 Task [ 0] updates[ 67000] train loss[0.55038] remaining[0:01:29]
+01/05/2021 07:10:07 Task [ 0] updates[ 67500] train loss[0.54852] remaining[0:00:32]
+01/05/2021 07:10:49 Task qnli -- epoch 9 -- Dev ACC: 87.439
+01/05/2021 07:11:00 [new test scores saved.]
+01/05/2021 07:11:04 At epoch 10
+01/05/2021 07:11:32 Task [ 0] updates[ 68000] train loss[0.54684] remaining[0:14:01]
+01/05/2021 07:12:30 Task [ 0] updates[ 68500] train loss[0.54534] remaining[0:12:04]
+01/05/2021 07:13:29 Task [ 0] updates[ 69000] train loss[0.54379] remaining[0:10:59]
+01/05/2021 07:14:27 Task [ 0] updates[ 69500] train loss[0.54208] remaining[0:09:56]
+01/05/2021 07:15:26 Task [ 0] updates[ 70000] train loss[0.54038] remaining[0:08:56]
+01/05/2021 07:16:24 Task [ 0] updates[ 70500] train loss[0.53888] remaining[0:07:56]
+01/05/2021 07:17:23 Task [ 0] updates[ 71000] train loss[0.53756] remaining[0:06:58]
+01/05/2021 07:18:21 Task [ 0] updates[ 71500] train loss[0.53671] remaining[0:05:58]
+01/05/2021 07:19:18 Task [ 0] updates[ 72000] train loss[0.53514] remaining[0:04:59]
+01/05/2021 07:20:16 Task [ 0] updates[ 72500] train loss[0.53395] remaining[0:04:00]
+01/05/2021 07:21:13 Task [ 0] updates[ 73000] train loss[0.53233] remaining[0:03:01]
+01/05/2021 07:22:10 Task [ 0] updates[ 73500] train loss[0.53054] remaining[0:02:03]
+01/05/2021 07:23:07 Task [ 0] updates[ 74000] train loss[0.52910] remaining[0:01:04]
+01/05/2021 07:24:04 Task [ 0] updates[ 74500] train loss[0.52740] remaining[0:00:06]
+01/05/2021 07:24:20 Task qnli -- epoch 10 -- Dev ACC: 87.631
+01/05/2021 07:24:31 [new test scores saved.]
+01/05/2021 07:24:35 At epoch 11
+01/05/2021 07:25:26 Task [ 0] updates[ 75000] train loss[0.52642] remaining[0:12:06]
+01/05/2021 07:26:23 Task [ 0] updates[ 75500] train loss[0.52508] remaining[0:11:08]
+01/05/2021 07:27:20 Task [ 0] updates[ 76000] train loss[0.52383] remaining[0:10:11]
+01/05/2021 07:28:17 Task [ 0] updates[ 76500] train loss[0.52240] remaining[0:09:12]
+01/05/2021 07:29:14 Task [ 0] updates[ 77000] train loss[0.52114] remaining[0:08:14]
+01/05/2021 07:30:11 Task [ 0] updates[ 77500] train loss[0.52007] remaining[0:07:18]
+01/05/2021 07:31:10 Task [ 0] updates[ 78000] train loss[0.51899] remaining[0:06:22]
+01/05/2021 07:32:07 Task [ 0] updates[ 78500] train loss[0.51758] remaining[0:05:24]
+01/05/2021 07:33:09 Task [ 0] updates[ 79000] train loss[0.51601] remaining[0:04:30]
+01/05/2021 07:34:19 Task [ 0] updates[ 79500] train loss[0.51485] remaining[0:03:36]
+01/05/2021 07:35:22 Task [ 0] updates[ 80000] train loss[0.51399] remaining[0:02:38]
+01/05/2021 07:36:16 Task [ 0] updates[ 80500] train loss[0.51315] remaining[0:01:38]
+01/05/2021 07:37:09 Task [ 0] updates[ 81000] train loss[0.51179] remaining[0:00:39]
+01/05/2021 07:37:55 Task qnli -- epoch 11 -- Dev ACC: 86.950
+01/05/2021 07:38:05 [new test scores saved.]
+01/05/2021 07:38:09 At epoch 12
+01/05/2021 07:38:27 Task [ 0] updates[ 81500] train loss[0.51082] remaining[0:11:43]
+01/05/2021 07:39:25 Task [ 0] updates[ 82000] train loss[0.50982] remaining[0:11:40]
+01/05/2021 07:40:26 Task [ 0] updates[ 82500] train loss[0.50874] remaining[0:10:56]
+01/05/2021 07:41:23 Task [ 0] updates[ 83000] train loss[0.50769] remaining[0:09:53]
+01/05/2021 07:42:20 Task [ 0] updates[ 83500] train loss[0.50678] remaining[0:08:53]
+01/05/2021 07:43:16 Task [ 0] updates[ 84000] train loss[0.50572] remaining[0:07:53]
+01/05/2021 07:44:14 Task [ 0] updates[ 84500] train loss[0.50478] remaining[0:06:57]
+01/05/2021 07:45:12 Task [ 0] updates[ 85000] train loss[0.50390] remaining[0:05:58]
+01/05/2021 07:46:09 Task [ 0] updates[ 85500] train loss[0.50268] remaining[0:05:00]
+01/05/2021 07:47:06 Task [ 0] updates[ 86000] train loss[0.50160] remaining[0:04:03]
+01/05/2021 07:48:03 Task [ 0] updates[ 86500] train loss[0.50051] remaining[0:03:05]
+01/05/2021 07:49:01 Task [ 0] updates[ 87000] train loss[0.49936] remaining[0:02:08]
+01/05/2021 07:49:58 Task [ 0] updates[ 87500] train loss[0.49822] remaining[0:01:10]
+01/05/2021 07:51:06 Task [ 0] updates[ 88000] train loss[0.49701] remaining[0:00:13]
+01/05/2021 07:51:35 Task qnli -- epoch 12 -- Dev ACC: 87.927
+01/05/2021 07:51:47 [new test scores saved.]
+01/05/2021 07:51:52 At epoch 13
+01/05/2021 07:52:45 Task [ 0] updates[ 88500] train loss[0.49600] remaining[0:14:39]
+01/05/2021 07:53:49 Task [ 0] updates[ 89000] train loss[0.49479] remaining[0:13:03]
+01/05/2021 07:54:49 Task [ 0] updates[ 89500] train loss[0.49369] remaining[0:11:31]
+01/05/2021 07:55:46 Task [ 0] updates[ 90000] train loss[0.49246] remaining[0:10:08]
+01/05/2021 07:56:42 Task [ 0] updates[ 90500] train loss[0.49124] remaining[0:08:55]
+01/05/2021 07:57:39 Task [ 0] updates[ 91000] train loss[0.49006] remaining[0:07:48]
+01/05/2021 07:58:36 Task [ 0] updates[ 91500] train loss[0.48908] remaining[0:06:45]
+01/05/2021 07:59:33 Task [ 0] updates[ 92000] train loss[0.48806] remaining[0:05:43]
+01/05/2021 08:00:30 Task [ 0] updates[ 92500] train loss[0.48696] remaining[0:04:42]
+01/05/2021 08:01:27 Task [ 0] updates[ 93000] train loss[0.48615] remaining[0:03:42]
+01/05/2021 08:02:24 Task [ 0] updates[ 93500] train loss[0.48541] remaining[0:02:43]
+01/05/2021 08:03:23 Task [ 0] updates[ 94000] train loss[0.48430] remaining[0:01:44]
+01/05/2021 08:04:21 Task [ 0] updates[ 94500] train loss[0.48373] remaining[0:00:46]
+01/05/2021 08:05:16 Task qnli -- epoch 13 -- Dev ACC: 88.015
+01/05/2021 08:05:27 [new test scores saved.]
+01/05/2021 08:05:31 At epoch 14
+01/05/2021 08:05:43 Task [ 0] updates[ 95000] train loss[0.48330] remaining[0:13:01]
+01/05/2021 08:06:41 Task [ 0] updates[ 95500] train loss[0.48260] remaining[0:11:57]
+01/05/2021 08:07:39 Task [ 0] updates[ 96000] train loss[0.48183] remaining[0:10:57]
+01/05/2021 08:08:43 Task [ 0] updates[ 96500] train loss[0.48081] remaining[0:10:17]
+01/05/2021 08:09:52 Task [ 0] updates[ 97000] train loss[0.47976] remaining[0:09:39]
+01/05/2021 08:11:01 Task [ 0] updates[ 97500] train loss[0.47879] remaining[0:08:48]
+01/05/2021 08:12:12 Task [ 0] updates[ 98000] train loss[0.47783] remaining[0:07:54]
+01/05/2021 08:13:20 Task [ 0] updates[ 98500] train loss[0.47705] remaining[0:06:52]
+01/05/2021 08:14:17 Task [ 0] updates[ 99000] train loss[0.47611] remaining[0:05:42]
+01/05/2021 08:15:14 Task [ 0] updates[ 99500] train loss[0.47550] remaining[0:04:34]
+01/05/2021 08:16:13 Task [ 0] updates[100000] train loss[0.47480] remaining[0:03:29]
+01/05/2021 08:17:14 Task [ 0] updates[100500] train loss[0.47386] remaining[0:02:26]
+01/05/2021 08:18:14 Task [ 0] updates[101000] train loss[0.47271] remaining[0:01:23]
+01/05/2021 08:19:12 Task [ 0] updates[101500] train loss[0.47182] remaining[0:00:21]
+01/05/2021 08:19:42 Task qnli -- epoch 14 -- Dev ACC: 88.119
+01/05/2021 08:19:52 [new test scores saved.]
+01/05/2021 08:19:56 At epoch 15
+01/05/2021 08:20:34 Task [ 0] updates[102000] train loss[0.47112] remaining[0:12:16]
+01/05/2021 08:21:30 Task [ 0] updates[102500] train loss[0.47017] remaining[0:11:14]
+01/05/2021 08:22:27 Task [ 0] updates[103000] train loss[0.46926] remaining[0:10:18]
+01/05/2021 08:23:24 Task [ 0] updates[103500] train loss[0.46839] remaining[0:09:20]
+01/05/2021 08:24:20 Task [ 0] updates[104000] train loss[0.46750] remaining[0:08:23]
+01/05/2021 08:25:17 Task [ 0] updates[104500] train loss[0.46671] remaining[0:07:27]
+01/05/2021 08:26:15 Task [ 0] updates[105000] train loss[0.46596] remaining[0:06:31]
+01/05/2021 08:27:13 Task [ 0] updates[105500] train loss[0.46537] remaining[0:05:35]
+01/05/2021 08:28:10 Task [ 0] updates[106000] train loss[0.46449] remaining[0:04:39]
+01/05/2021 08:29:07 Task [ 0] updates[106500] train loss[0.46381] remaining[0:03:42]
+01/05/2021 08:30:04 Task [ 0] updates[107000] train loss[0.46299] remaining[0:02:44]
+01/05/2021 08:31:01 Task [ 0] updates[107500] train loss[0.46215] remaining[0:01:48]
+01/05/2021 08:31:58 Task [ 0] updates[108000] train loss[0.46174] remaining[0:00:51]
+01/05/2021 08:33:00 Task qnli -- epoch 15 -- Dev ACC: 87.980
+01/05/2021 08:33:10 [new test scores saved.]
+01/05/2021 08:33:14 At epoch 16
+01/05/2021 08:33:20 Task [ 0] updates[108500] train loss[0.46137] remaining[0:13:14]
+01/05/2021 08:34:30 Task [ 0] updates[109000] train loss[0.46112] remaining[0:14:10]
+01/05/2021 08:35:40 Task [ 0] updates[109500] train loss[0.46038] remaining[0:13:13]
+01/05/2021 08:36:49 Task [ 0] updates[110000] train loss[0.45948] remaining[0:12:03]
+01/05/2021 08:37:46 Task [ 0] updates[110500] train loss[0.45853] remaining[0:10:26]
+01/05/2021 08:38:43 Task [ 0] updates[111000] train loss[0.45774] remaining[0:09:04]
+01/05/2021 08:39:41 Task [ 0] updates[111500] train loss[0.45707] remaining[0:07:51]
+01/05/2021 08:40:39 Task [ 0] updates[112000] train loss[0.45644] remaining[0:06:43]
+01/05/2021 08:41:34 Task [ 0] updates[112500] train loss[0.45563] remaining[0:05:35]
+01/05/2021 08:42:26 Task [ 0] updates[113000] train loss[0.45471] remaining[0:04:29]
+01/05/2021 08:43:19 Task [ 0] updates[113500] train loss[0.45394] remaining[0:03:26]
+01/05/2021 08:44:35 Task [ 0] updates[114000] train loss[0.45322] remaining[0:02:30]
+01/05/2021 08:45:57 Task [ 0] updates[114500] train loss[0.45248] remaining[0:01:31]
+01/05/2021 08:47:19 Task [ 0] updates[115000] train loss[0.45186] remaining[0:00:29]
+01/05/2021 08:48:11 Task qnli -- epoch 16 -- Dev ACC: 88.381
+01/05/2021 08:48:26 [new test scores saved.]
+01/05/2021 08:48:30 At epoch 17
+01/05/2021 08:49:17 Task [ 0] updates[115500] train loss[0.45134] remaining[0:18:27]
+01/05/2021 08:50:39 Task [ 0] updates[116000] train loss[0.45082] remaining[0:16:40]
+01/05/2021 08:52:03 Task [ 0] updates[116500] train loss[0.45014] remaining[0:15:18]
+01/05/2021 08:53:33 Task [ 0] updates[117000] train loss[0.44935] remaining[0:14:14]
+01/05/2021 08:55:01 Task [ 0] updates[117500] train loss[0.44844] remaining[0:12:53]
+01/05/2021 08:56:28 Task [ 0] updates[118000] train loss[0.44760] remaining[0:11:29]
+01/05/2021 08:57:55 Task [ 0] updates[118500] train loss[0.44684] remaining[0:10:04]
+01/05/2021 08:59:17 Task [ 0] updates[119000] train loss[0.44626] remaining[0:08:34]
+01/05/2021 09:00:45 Task [ 0] updates[119500] train loss[0.44550] remaining[0:07:10]
+01/05/2021 09:02:13 Task [ 0] updates[120000] train loss[0.44481] remaining[0:05:45]
+01/05/2021 09:03:46 Task [ 0] updates[120500] train loss[0.44419] remaining[0:04:21]
+01/05/2021 09:05:14 Task [ 0] updates[121000] train loss[0.44362] remaining[0:02:54]
+01/05/2021 09:06:35 Task [ 0] updates[121500] train loss[0.44312] remaining[0:01:27]
+01/05/2021 09:08:05 Task [ 0] updates[122000] train loss[0.44250] remaining[0:00:00]
+01/05/2021 09:08:21 Task qnli -- epoch 17 -- Dev ACC: 88.329
+01/05/2021 09:08:36 [new test scores saved.]
+01/05/2021 09:08:40 At epoch 18
+01/05/2021 09:10:08 Task [ 0] updates[122500] train loss[0.44200] remaining[0:18:41]
+01/05/2021 09:11:37 Task [ 0] updates[123000] train loss[0.44132] remaining[0:17:07]
+01/05/2021 09:13:01 Task [ 0] updates[123500] train loss[0.44066] remaining[0:15:22]
+01/05/2021 09:14:24 Task [ 0] updates[124000] train loss[0.43983] remaining[0:13:43]
+01/05/2021 09:15:51 Task [ 0] updates[124500] train loss[0.43911] remaining[0:12:19]
+01/05/2021 09:17:21 Task [ 0] updates[125000] train loss[0.43855] remaining[0:10:57]
+01/05/2021 09:18:50 Task [ 0] updates[125500] train loss[0.43793] remaining[0:09:32]
+01/05/2021 09:20:19 Task [ 0] updates[126000] train loss[0.43726] remaining[0:08:06]
+01/05/2021 09:21:48 Task [ 0] updates[126500] train loss[0.43653] remaining[0:06:40]
+01/05/2021 09:23:14 Task [ 0] updates[127000] train loss[0.43578] remaining[0:05:11]
+01/05/2021 09:24:41 Task [ 0] updates[127500] train loss[0.43510] remaining[0:03:44]
+01/05/2021 09:26:09 Task [ 0] updates[128000] train loss[0.43443] remaining[0:02:16]
+01/05/2021 09:27:35 Task [ 0] updates[128500] train loss[0.43392] remaining[0:00:49]
+01/05/2021 09:28:33 Task qnli -- epoch 18 -- Dev ACC: 88.154
+01/05/2021 09:28:48 [new test scores saved.]
+01/05/2021 09:28:52 At epoch 19
+01/05/2021 09:29:30 Task [ 0] updates[129000] train loss[0.43350] remaining[0:18:58]
+01/05/2021 09:30:58 Task [ 0] updates[129500] train loss[0.43322] remaining[0:17:43]
+01/05/2021 09:32:28 Task [ 0] updates[130000] train loss[0.43272] remaining[0:16:24]
+01/05/2021 09:33:58 Task [ 0] updates[130500] train loss[0.43229] remaining[0:14:59]
+01/05/2021 09:35:19 Task [ 0] updates[131000] train loss[0.43179] remaining[0:13:14]
+01/05/2021 09:36:51 Task [ 0] updates[131500] train loss[0.43116] remaining[0:11:54]
+01/05/2021 09:38:20 Task [ 0] updates[132000] train loss[0.43064] remaining[0:10:27]
+01/05/2021 09:39:47 Task [ 0] updates[132500] train loss[0.43032] remaining[0:08:58]
+01/05/2021 09:41:15 Task [ 0] updates[133000] train loss[0.42959] remaining[0:07:30]
+01/05/2021 09:42:39 Task [ 0] updates[133500] train loss[0.42905] remaining[0:06:00]
+01/05/2021 09:44:04 Task [ 0] updates[134000] train loss[0.42835] remaining[0:04:32]
+01/05/2021 09:45:32 Task [ 0] updates[134500] train loss[0.42770] remaining[0:03:05]
+01/05/2021 09:46:59 Task [ 0] updates[135000] train loss[0.42717] remaining[0:01:37]
+01/05/2021 09:48:25 Task [ 0] updates[135500] train loss[0.42656] remaining[0:00:10]
+01/05/2021 09:48:50 Task qnli -- epoch 19 -- Dev ACC: 88.084
+01/05/2021 09:49:05 [new test scores saved.]
