@@ -32,7 +32,7 @@
 -- 畫出來的圖會跑到 ./imgs
 -- 跑 Finetune 的 log 的時候，最後會輸出最高成績和對應epoch，也會印出每個epoch成績的 list
 -- 跑 MTDNN 的 log 的時候，最後會印出每個 epoch 的成績，```可以直接複製貼到excel，選"將文字分隔成不同欄"```
-> 這邊要放圖片
+![Image of example](https://github.com/billkunghappy/Uncertainty-MTL/blob/main/%E7%A4%BA%E7%AF%84.png)
 -- MTDNN log 可以用 ```python3 get_score.py $LOG_FILE $EPOCH_NUM``` 不畫圖，只取得單個 EPOCH 的成績
 ### ./draw_all.sh
 -- 跑之後會把所有當前資料夾的 log 檔案都跑一次 get_score.py
